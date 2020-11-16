@@ -13,7 +13,9 @@ include_directories(
 add_executable(Projekt_kompetencyjny
 	main.cpp
 	processing.cpp
+	questions.cpp
 	processing.h
+	questions.h
 	# You can put here your .h and .cpp files to expand the example.
 )
 
