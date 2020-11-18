@@ -1,7 +1,7 @@
 #include "processing.h"
 
 
-Mat imageAfterPreprocessing(Mat img) {
+Mat FingersDetector::processingImage(Mat img) {
 
 	Mat img2, imgHSV, blurred, thres;
 
@@ -14,7 +14,7 @@ Mat imageAfterPreprocessing(Mat img) {
 }
 
 
-vector<vector<Point>> findContoursImage(Mat thresImage) {
+vector<vector<Point>> FingersDetector::findContoursImage(Mat thresImage) {
 
 	vector<vector<Point>> contours;
 	vector<Vec4i> hierarchy;
@@ -24,7 +24,7 @@ vector<vector<Point>> findContoursImage(Mat thresImage) {
 }
 
 
-vector<vector<Vec4i>> createConvexity(vector<vector<Point>>& hull, vector<vector<Point>>& contours) {
+vector<vector<Vec4i>> FingersDetector::createConvexity(vector<vector<Point>>& hull, vector<vector<Point>>& contours) {
 
 	vector<vector<int> > hull2(contours.size());
 	vector<vector<Vec4i>> convDefect(contours.size());
@@ -39,7 +39,7 @@ vector<vector<Vec4i>> createConvexity(vector<vector<Point>>& hull, vector<vector
 	return convDefect;
 }
 
-Mat drawContoursImage(Mat& thresImage, vector<vector<Point>>& contours, vector<vector<Point>>& hull) {
+Mat FingersDetector::drawContoursImage(Mat& thresImage, vector<vector<Point>>& contours, vector<vector<Point>>& hull) {
 	Mat drawing = Mat::zeros(thresImage.size(), CV_8UC3);
 
 	for (size_t i = 0; i < contours.size(); i++) {
@@ -53,7 +53,7 @@ Mat drawContoursImage(Mat& thresImage, vector<vector<Point>>& contours, vector<v
 }
 
 
-bool isFinger(Point startPoint, Point endPoint, Point farPoint, bool flag) {
+bool FingersDetector::isFinger(Point startPoint, Point endPoint, Point farPoint, bool flag) {
 
 	//obliczanie dlugosci odcinka
 	float a = sqrt(pow(endPoint.x - startPoint.x, 2) + pow(endPoint.y - startPoint.y, 2));
@@ -84,7 +84,7 @@ bool isFinger(Point startPoint, Point endPoint, Point farPoint, bool flag) {
 
 
 
-int countFingers(vector<vector<Point>>& contours, Mat drawing, vector<vector<Vec4i>>& convdefect) {
+int FingersDetector::countFingers(vector<vector<Point>>& contours, Mat drawing, vector<vector<Vec4i>>& convdefect) {
 	int counterFin = 0;
 	int flag = 0;
 	bool flagFinger = false;
