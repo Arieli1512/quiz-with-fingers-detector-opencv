@@ -21,6 +21,25 @@ void Question::setOptionE(string optionE) {
 }
 void Question::setAnswer(string answer) {
 	this->answer = answer;
+
+	int answerNumber=0;
+	if (answer == getOptionA())
+		answerNumber = 1;
+	else if (answer == getOptionB())
+		answerNumber = 2;
+	else if (answer == getOptionC())
+		answerNumber = 3;
+	else if (answer == getOptionD())
+		answerNumber = 4;
+	else if (answer == getOptionE())
+		answerNumber = 5;
+	else answerNumber = 0;
+
+	setAnswerNumber(answerNumber);
+}
+void Question::setAnswerNumber(int number) {
+
+	this->answerNumber = number;
 }
 
 string Question::getQuestion() {
@@ -50,7 +69,9 @@ string Question::getOptionE() {
 string Question::getAnswer() {
 	return answer;
 }
-
+int Question::getAnswerNumber() {
+	return answerNumber;
+ }
 
 
 
@@ -61,13 +82,26 @@ QuestionList::~QuestionList() {
 
 void QuestionList::printQuestion(int index) {
 	Question question = questionArray.at(index);
-	cout << "Question: " << question.getQuestion() << endl << "Ansewer: " << question.getAnswer() << endl;
+	cout << question.getQuestion() << endl;
+	cout << "1) " << question.getOptionA() << endl;
+	cout << "2) " << question.getOptionB() << endl;
+	cout << "3) " << question.getOptionC() << endl;
+	cout << "4) " << question.getOptionD() << endl;
+	cout << "5) " << question.getOptionE() << endl;
 }
 void QuestionList::printAllQuestions() {
 	for (int i = 0; i < questionArray.size(); i++) {
 		Question question = questionArray.at(i);
 		cout << "Question: " << question.getQuestion() << endl << "Ansewer: " << question.getAnswer() << endl;
 	}
+}
+
+int QuestionList::getAnswerNumber(int index) {
+	return questionArray.at(index).getAnswerNumber();
+}
+
+string QuestionList::getAnswer(int index) {
+	return questionArray.at(index).getAnswer();
 }
 
 int QuestionList::readQuesionsFromFile(string pathToFile) {
