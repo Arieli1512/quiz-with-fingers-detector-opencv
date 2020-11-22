@@ -11,7 +11,7 @@ class Question
 private:
 	wstring question;
 	vector<wstring> answers;
-	int correctAnswer;
+	int correctAnswer=0;
 
 public:
 	void setQuestion(wstring question);
