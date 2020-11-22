@@ -20,12 +20,3 @@ public:
 	int countFingers(vector<vector<Point>>& contours, Mat drawing, vector<vector<Vec4i>>& convdefect);
 
 };
-
-//Mat processingImage(Mat img);
-//vector<vector<Point>> findContoursImage(Mat thresImage);
-//vector<vector<Vec4i>> createConvexity(vector<vector<Point>>& hull, vector<vector<Point>>& contours);
-//Mat drawContoursImage(Mat& thresImage, vector<vector<Point>>& contours, vector<vector<Point>>& hull);
-//bool isFinger(Point startPoint, Point endPoint, Point farPoint, bool flag);
-//int countFingers(vector<vector<Point>>& contours, Mat drawing, vector<vector<Vec4i>>& convdefect);
-
-

@@ -108,6 +108,7 @@ a*a
 a^2
 a+b
 a*a+b*b
+a*b*h
 (a+b)*h/2
 Która z rzek nie znajduje się w Polsce?
 Odra
