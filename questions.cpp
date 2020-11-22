@@ -6,7 +6,7 @@ void Question::setQuestion(wstring question) {
 }
 
 void Question::setCorrectAnswer(int correct) {
-	this->correctAnswer = correct;
+	this->correctAnswer = correct+1;
 }
 void Question::setAnswers(vector < wstring > answers) {
 	this->answers = answers;
@@ -43,6 +43,7 @@ void Question::print() {
 		wcout << i + 1 << ") " << answers.at(i) << endl;
 	}
 	cout << "\n";
+
 
 }
 
