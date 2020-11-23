@@ -125,7 +125,6 @@ public:
 		camera.read(img);
 		Mat thres = fingersDetector.processingImage(img);
 		if (thres.empty()) {
-			cout << "File not found" << endl;
 			return -1;
 		}
 		vector<vector<cv::Point>> contours = fingersDetector.findContoursImage(thres);
