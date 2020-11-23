@@ -22,13 +22,16 @@ private:
 	vector<Text> answersText;
 	Font font;
 	Event event;
-	Text score;
+	Text currentQuestion;
 	VideoCapture camera;
+	Mat drawing;
 
 	int qs=0;
 	int timer=0;
-	int totalQuestions = 23;
+	int totalQuestions = 12;
 	int flag = 0;
+	int score = 0;
+
 
 public:
 	RenderWindow window;
@@ -39,6 +42,7 @@ public:
 		this->answersBox = answersBox;
 		this->questionList = questionList;
 	}
+	int numOfFingers = 0;
 
 	void configCamera() {
 		VideoCapture cam1(0);
@@ -62,12 +66,12 @@ public:
 
 			string str1 = "Pytanie 1 / ";
 			str1.append(to_string(totalQuestions));
-			score.setString(str1);
+			currentQuestion.setString(str1);
 			
 			font.loadFromFile("../fonts/AllerDisplay.ttf");
 			button.loadFromFile("../imagesSfml/baner4.jpg");
 			questionTexture.loadFromFile("../imagesSfml/button.png");
-			score.setFont(font);
+			currentQuestion.setFont(font);
 
 			textQuestions.setFillColor(sf::Color::White);
 			answersBox[0].setFillColor(sf::Color::Magenta);
@@ -116,65 +120,75 @@ public:
 	}
 
 
+	int detectFingers() {
+		cv::Mat img;
+		camera.read(img);
+		Mat thres = fingersDetector.processingImage(img);
+		if (thres.empty()) {
+			cout << "File not found" << endl;
+			return -1;
+		}
+		vector<vector<cv::Point>> contours = fingersDetector.findContoursImage(thres);
+		vector<vector<cv::Point>> hull(contours.size());
+		vector<vector<int> > hulls2(contours.size());
+		vector<vector<cv::Vec4i>> convDefect = fingersDetector.createConvexity(hull, contours);
+		drawing = fingersDetector.drawContoursImage(thres, contours, hull);
+		numOfFingers = fingersDetector.countFingers(contours, drawing, convDefect);
+
+
+		cv::putText(drawing, to_string(numOfFingers), cv::Point(50, 50), FONT_HERSHEY_SIMPLEX, 2, 255);
+		cv::imshow("window", drawing);
+		return numOfFingers;
+	}
+
 	int handleAnswers() {
-
-		//try {
-
-			cv::Mat img;
-			camera.read(img);
-			Mat thres = fingersDetector.processingImage(img);
-			if (thres.empty()) {
-				cout << "File not found" << endl;
-				return -1;
-			}
-			vector<vector<cv::Point>> contours = fingersDetector.findContoursImage(thres);
-			vector<vector<cv::Point>> hull(contours.size());
-			vector<vector<int> > hulls2(contours.size());
-			vector<vector<cv::Vec4i>> convDefect = fingersDetector.createConvexity(hull, contours);
-			cv::Mat drawing = fingersDetector.drawContoursImage(thres, contours, hull);
-			int numOfFingers = fingersDetector.countFingers(contours, drawing, convDefect);
-			
 			//window.clear();
 			window.draw(questionBox);
 			Text textP;
+			Text currentScore;
+
 			switch (flag) {
 			case 1:
-				textP.setString("Poprawna odpowiedz");
+				textP.setString(L"Poprawna odpowiedź");
+				textP.setFillColor(Color::Green);
 				break;
 			case 2:
-				textP.setString("Bledna odpowiedz");
+				textP.setString(L"Błędna odpowiedź");
+				textP.setFillColor(Color::Red);
 				break;
 			}
-			textP.setPosition(1500, 10);
+			textP.setPosition(1495, 10);
 			textP.setFont(font);
 			textP.setCharacterSize(30);
+			currentScore.setPosition(10, 60);
+			currentScore.setCharacterSize(30);
+			currentScore.setFont(font);
 
-			if (timer ==180) {
+			if (timer ==200) {
 				
-
 				if (numOfFingers == questionList.getQuestionArray().at(qs).getCorrectAnswer()) {
-					//textP.setString("Poprawna odpowiedz\n");
+					score++;
 					flag = 1;
 					cout << "POprawna odp" << numOfFingers <<"  corr answ :"<< questionList.getQuestionArray().at(qs).getCorrectAnswer()<<endl;
 				}
 				else {
-					//textP.setString("Bledna odpowiedz\n");
 					flag = 2;
 					cout << "Zla odp" << numOfFingers << "  corr answ :" << questionList.getQuestionArray().at(qs).getCorrectAnswer() << endl;
 				}
-				
-				
+
 				timer = 0;
 				qs++;
 				string mystr = "Pytanie ";
 				mystr.append(to_string(qs + 1));
 				mystr.append(" / ");
 				mystr.append(to_string(totalQuestions));
-				score.setString(mystr);
+				currentQuestion.setString(mystr);
 
 			}
 
+			currentScore.setString("Punkty " + to_string(score));
 			window.draw(textP);
+			window.draw(currentScore);
 			for (int i = 0; i < answersBox.size(); i++){
 
 	
@@ -195,16 +209,16 @@ public:
 			}
 
 
-			score.setPosition(10, 10);
-			window.draw(score);
+			currentQuestion.setPosition(10, 10);
+			window.draw(currentQuestion);
 			window.display();
 
 			timer++;
-			cv::putText(drawing, to_string(numOfFingers), cv::Point(50, 50), FONT_HERSHEY_SIMPLEX, 2, 255);
-			cv::imshow("window", drawing);
-			
-			if (waitKey(30) == 27)
-				return -1;
+			//cv::putText(drawing, to_string(numOfFingers), cv::Point(50, 50), FONT_HERSHEY_SIMPLEX, 2, 255);
+			//cv::imshow("window", drawing);
+			//
+			//if (waitKey(30) == 27)
+			//	return -1;
 
 		return 0;
 
@@ -229,15 +243,23 @@ int main() {
 
 		mainController.setUp();
 		mainController.configCamera();
-
+		int startFlag = 1;
 		while (true){
 
 			try {
 				mainController.handleEvent();
-				mainController.handleAnswers();
+				int x = mainController.detectFingers();
+				if (x == 5 && startFlag == 0) {
+					mainController.handleAnswers();
+					startFlag = 1;
+				}
+				else if (startFlag == 1)
+					mainController.handleAnswers();
+					
+
 			}
 			catch (cv::Exception& e) {
-				cout << e.what();
+				//cout << e.what();
 			}
 		}
 
