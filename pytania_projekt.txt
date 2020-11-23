@@ -18,21 +18,21 @@ Rozwiąż równanie: 2+2*2
 12
 2
 4
-8
+6
 Jakie państwo nie graniczy z Polską?
-Rosja
+Francja
 Niemcy
 Ukraina
 Słowacja
 Czechy
-Rosja
+Francja
 Które miasto nie było/nie jest stolicą?
 Kraków
 Gniezno
 Warszawa
 Moskwa
-Łódz
-Łódz
+Łódź
+Łódź
 Które słowo nie pasuje do pozostałych?
 Rzeczownik
 Czasownik
@@ -40,20 +40,6 @@ Orzeczenie
 Przysłówek
 Przymiotnik
 Orzeczenie
-Pewnien produkt kosztował 100zł,jego cene obniżono o 10% a następnie podwyższono o 10%.Ile kosztuje teraz?
-90
-100
-110
-99
-101
-99
-W ilu miastach w Polsce jest metro?
-2
-4
-1
-6
-12
-1
 Ile wierzchołków ma sześcian?
 4
 6
@@ -75,14 +61,14 @@ Ile lat trwa kadencja Sejmu?
 8
 3
 4
-Z kim walczyły Amerykanie w wojnie secesyjnej?
+Z kim walczyli Amerykanie w wojnie secesyjnej?
 Rosjanami
 Francuzami
 Anglikami
 Polakami
-Inna odpowiedz
-Inna odpowiedz
-Ile kontynetów znajduje się na Ziemi?
+Inna odpowiedź
+Inna odpowiedź
+Ile kontynentów znajduje się na Ziemi?
 4
 7
 8
@@ -90,10 +76,10 @@ Ile kontynetów znajduje się na Ziemi?
 5
 7
 Kto był pierwszym królem Polski?
-Mieszko 1
+Mieszko I
 Bolesław Chrobry
 Władysław Łokietek
-Jan 3 Sobieski
+Jan III Sobieski
 Bolesław Krzywousty
 Bolesław Chrobry
 Który wyraz jest napisany poprawnie?
@@ -106,8 +92,8 @@ Gżegżółka
 Podaj wzór na pole trapezu
 a*a
 a^2
+(a+b)*h/2
 a+b
-a*a+b*b
 a*b*h
 (a+b)*h/2
 Która z rzek nie znajduje się w Polsce?
@@ -166,3 +152,10 @@ Która temperatura jest najwyższa?
 0'C
 3 poprawne odp. 
 5'C
+W ilu miastach w Polsce jest metro?
+2
+4
+1
+6
+12
+1
