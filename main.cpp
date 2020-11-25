@@ -26,9 +26,8 @@ private:
 	Text currentQuestion;
 	VideoCapture camera;
 	Mat drawing;
-	Clock clock;
 	Time elapsed;
-
+	Clock clock;
 	int qs = 0;
 	int timer = 10;
 	int totalQuestions = 12;
@@ -46,6 +45,11 @@ public:
 		this->questionList = questionList;
 	}
 	int numOfFingers = 0;
+
+	void clockReset()
+	{
+		clock.restart();
+	}
 
 	void configCamera() {
 		VideoCapture cam1(0);
@@ -145,6 +149,7 @@ public:
 
 	int handleAnswers() {
 		//window.clear();
+
 		window.draw(questionBox);
 		Text textP;
 		Text currentScore;
@@ -178,7 +183,7 @@ public:
 			if (numOfFingers == questionList.getQuestionArray().at(qs).getCorrectAnswer()) {
 				score++;
 				flag = 1;
-				cout << "POprawna odp" << numOfFingers << "  corr answ :" << questionList.getQuestionArray().at(qs).getCorrectAnswer() << endl;
+				cout << "Poprawna odp" << numOfFingers << "  corr answ :" << questionList.getQuestionArray().at(qs).getCorrectAnswer() << endl;
 			}
 			else {
 				flag = 2;
@@ -251,6 +256,7 @@ int main() {
 			mainController.handleEvent();
 			int x = mainController.detectFingers();
 			if (x == 5 && startFlag == 0) {
+				mainController.clockReset();
 				mainController.handleAnswers();
 				startFlag = 1;
 			}
@@ -258,7 +264,7 @@ int main() {
 				int check = mainController.handleAnswers();
 				if (check == 1)return 0;
 			}
-				
+
 
 		}
 		catch (cv::Exception& e) {
