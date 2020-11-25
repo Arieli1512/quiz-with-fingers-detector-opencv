@@ -55,6 +55,55 @@ public:
 		VideoCapture cam1(0);
 		this->camera = cam1;
 	}
+
+	void startingScreen() {
+		font.loadFromFile("../fonts/AllerDisplay.ttf");
+		questionTexture.loadFromFile("../imagesSfml/baner4.jpg");
+		RectangleShape helloScreen(Vector2f(1800, 650.0f));
+		helloScreen.setTexture(&questionTexture);
+		helloScreen.setOrigin(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
+		helloScreen.setPosition(900, 325);
+
+		Text text1;
+		text1.setPosition(25, 10);
+		text1.setFont(font);
+		text1.setCharacterSize(55);
+		text1.setString(L"QUIZ");
+
+		Text text2;
+		text2.setPosition(25, 300);
+		text2.setFont(font);
+		text2.setCharacterSize(70);
+		text2.setString(L"By rozpocząć grę pokaż do kamery\n pięć palców");
+
+		int flag = 0;
+
+		while (true) {
+			try {
+				window.clear();
+				window.draw(helloScreen);
+				window.draw(text1);
+				window.draw(text2);
+				window.display();
+				handleEvent();
+				if (flag == 0)
+				{
+					configCamera();
+					flag = 1;
+				}
+				int x = detectFingers();
+				if (x == 5) {
+					cout << "Pokazales 5 placow!" << endl;
+					break;
+				}
+			}
+			catch (cv::Exception& e) {
+			}
+		}
+
+
+
+	}
 	void setUp() {
 
 		int x = questionList.readQuesionsFromFile("../pytania_projekt.txt");
@@ -77,7 +126,6 @@ public:
 
 		font.loadFromFile("../fonts/AllerDisplay.ttf");
 		button.loadFromFile("../imagesSfml/baner4.jpg");
-		questionTexture.loadFromFile("../imagesSfml/button.png");
 		currentQuestion.setFont(font);
 
 		textQuestions.setFillColor(sf::Color::White);
@@ -149,7 +197,7 @@ public:
 
 	int handleAnswers() {
 		//window.clear();
-
+		//window.clear();
 		window.draw(questionBox);
 		Text textP;
 		Text currentScore;
@@ -247,9 +295,12 @@ int main() {
 
 	Quiz mainController(questionBox, answersBox, questionList, fingersDetector);
 
+
+	mainController.startingScreen();
 	mainController.setUp();
-	mainController.configCamera();
+
 	int startFlag = 0;
+
 	while (true) {
 
 		try {
