@@ -52,11 +52,23 @@ wstring Question::getCorrectAnswerName() {
 }
 
 
+void Question::setCorrectAnswerName(wstring correctAnswerName) {
+	this->correctAnswerName = correctAnswerName;
+}
+
+void Question::mixAnswers() {
+	srand(unsigned(time(NULL)));
+	random_shuffle(answers.begin(), answers.end());
+}
+
+
+
 
 
 vector < Question > QuestionList::getQuestionArray() {
 	return this->questionArray;
 }
+
 
 int QuestionList::readQuesionsFromFile(string pathToFile) {
 
@@ -84,11 +96,14 @@ int QuestionList::readQuesionsFromFile(string pathToFile) {
 			texts.push_back(text);
 		}
 		question.setAnswers(texts);
-		question.print();
-	
-		wstring correctAnswer;
-		getline(file, correctAnswer);
-		question.compareAnswers(correctAnswer);
+		//question.print();
+
+		question.mixAnswers();
+		wstring correctAnswerName;
+		getline(file, correctAnswerName);
+
+		question.setCorrectAnswerName(correctAnswerName);
+		question.compareAnswers(correctAnswerName);
 
 		questionArray.push_back(question);
 	}
@@ -96,3 +111,10 @@ int QuestionList::readQuesionsFromFile(string pathToFile) {
 
 	return 0;
 }
+
+void QuestionList::mixQuestions() {
+	srand(unsigned(time(NULL)));
+	random_shuffle(questionArray.begin(), questionArray.end());
+}
+
+
