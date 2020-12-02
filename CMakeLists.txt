@@ -14,10 +14,12 @@ find_package(SFML 2.5.1 COMPONENTS system window graphics network audio)
 
 add_executable(Projekt_kompetencyjny
 	main.cpp
-	processing.cpp
-	questions.cpp
-	processing.h
-	questions.h
+	FingersDetector.cpp
+	FingersDetector.h
+	Question.cpp
+	Question.h
+	QuestionList.cpp
+	QuestionList.h
 )
 
 
