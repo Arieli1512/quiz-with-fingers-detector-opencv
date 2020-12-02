@@ -1,17 +1,22 @@
 ﻿#include <iostream>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
-#include "FingersDetector.h"
-#include "Question.h"
-#include "QuestionList.h"
+
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
+
+#include "Question.h"
+#include "QuestionList.h"
+#include "FingersDetector.h"
 
 
 using namespace std;
 using namespace sf;
+using namespace cv;
+
 
 class Quiz {
+
 private:
 	RectangleShape questionBox;
 	vector<RectangleShape> answersBox;
@@ -30,8 +35,8 @@ private:
 	Time elapsed;
 	Clock clock;
 	int qs = 0;
-	int timer = 1;
-	int totalQuestions = 12;
+	int timer = 10;
+	int totalQuestions = 10;
 	int flag = 0;
 	int score = 0;
 
@@ -44,6 +49,7 @@ public:
 		this->questionBox = questionBox;
 		this->answersBox = answersBox;
 		this->questionList = questionList;
+
 	}
 	int numOfFingers = 0;
 
@@ -56,9 +62,14 @@ public:
 		VideoCapture cam1(0);
 		this->camera = cam1;
 	}
+
+
 	void endingScreen()
 	{
 		window.clear();
+		destroyWindow("window");
+		this->camera.release();
+
 		RectangleShape endScreen(Vector2f(1800, 650.0f));
 		endScreen.setTexture(&questionTexture);
 		endScreen.setOrigin(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
@@ -66,7 +77,7 @@ public:
 		Text text2;
 		text2.setFont(font);
 		text2.setCharacterSize(70);
-		text2.setString(" Koniec gry \n Twoj wynik to: " + to_string(score));
+		text2.setString(L" Koniec gry \n Twój wynik to: " + to_string(score)+L" punktów");
 		text2.setOrigin(text2.getLocalBounds().width / 2.0f, text2.getLocalBounds().height / 2.0f);
 		text2.setPosition(900, 325);
 		while (true)
@@ -95,7 +106,7 @@ public:
 		Text text2;
 		text2.setFont(font);
 		text2.setCharacterSize(70);
-		text2.setString(L"By rozpocząć grę pokaż do kamery\n pięć palców");
+		text2.setString(L"Aby rozpocząć grę pokaż do kamery\n pięć palców");
 		text2.setOrigin(text2.getLocalBounds().width / 2.0f, text2.getLocalBounds().height / 2.0f);
 		text2.setPosition(900, 325);
 
@@ -133,6 +144,8 @@ public:
 		if (x == -1) {
 			return;
 		}
+
+		questionList.mixQuestions();
 
 		textAnswers.setCharacterSize(36);
 		textQuestions.setCharacterSize(45);
@@ -183,7 +196,6 @@ public:
 	}
 
 	void handleEvent() {
-		
 		while (window.pollEvent(event))
 		{
 			switch (event.type)
@@ -192,6 +204,9 @@ public:
 				window.close();
 				break;
 			case Event::Resized:
+				cout << window.getSize().x << endl;
+				cout << window.getSize().y << endl;
+				//window.setView(sf::View(window.getView().getCenter(), sf::Vector2f((float)event.size.width, (float)event.size.height)));
 				break;
 
 			}
@@ -337,7 +352,8 @@ int main() {
 			}
 			else if (startFlag == 1) {
 				int check = mainController.handleAnswers();
-				if (check == 1)mainController.endingScreen();
+				if (check == 1)
+					break;
 			}
 
 
@@ -345,5 +361,7 @@ int main() {
 		catch (cv::Exception& e) {
 		}
 	}
+
+	mainController.endingScreen();
 	return 0;
 }
