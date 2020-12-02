@@ -55,7 +55,27 @@ public:
 		VideoCapture cam1(0);
 		this->camera = cam1;
 	}
-
+	void endingScreen()
+	{
+		window.clear();
+		RectangleShape endScreen(Vector2f(1800, 650.0f));
+		endScreen.setTexture(&questionTexture);
+		endScreen.setOrigin(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
+		endScreen.setPosition(900, 325);
+		Text text2;
+		text2.setFont(font);
+		text2.setCharacterSize(70);
+		text2.setString(" Koniec gry \n Twoj wynik to: " + to_string(score));
+		text2.setOrigin(text2.getLocalBounds().width / 2.0f, text2.getLocalBounds().height / 2.0f);
+		text2.setPosition(900, 325);
+		while (true)
+		{
+			window.draw(endScreen);
+			window.draw(text2);
+			window.display();
+			handleEvent();
+		}
+	}
 	void startingScreen() {
 		font.loadFromFile("../fonts/AllerDisplay.ttf");
 		questionTexture.loadFromFile("../imagesSfml/baner4.jpg");
@@ -71,10 +91,11 @@ public:
 		text1.setString(L"QUIZ");
 
 		Text text2;
-		text2.setPosition(25, 300);
 		text2.setFont(font);
 		text2.setCharacterSize(70);
 		text2.setString(L"By rozpocząć grę pokaż do kamery\n pięć palców");
+		text2.setOrigin(text2.getLocalBounds().width / 2.0f, text2.getLocalBounds().height / 2.0f);
+		text2.setPosition(900, 325);
 
 		int flag = 0;
 
@@ -313,7 +334,7 @@ int main() {
 			}
 			else if (startFlag == 1) {
 				int check = mainController.handleAnswers();
-				if (check == 1)return 0;
+				if (check == 1)mainController.endingScreen();
 			}
 
 
