@@ -30,7 +30,7 @@ private:
 	Time elapsed;
 	Clock clock;
 	int qs = 0;
-	int timer = 10;
+	int timer = 1;
 	int totalQuestions = 12;
 	int flag = 0;
 	int score = 0;
@@ -62,7 +62,7 @@ public:
 		RectangleShape endScreen(Vector2f(1800, 650.0f));
 		endScreen.setTexture(&questionTexture);
 		endScreen.setOrigin(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
-		endScreen.setPosition(900, 325);
+		endScreen.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
 		Text text2;
 		text2.setFont(font);
 		text2.setCharacterSize(70);
@@ -71,6 +71,7 @@ public:
 		text2.setPosition(900, 325);
 		while (true)
 		{
+			window.clear();
 			window.draw(endScreen);
 			window.draw(text2);
 			window.display();
@@ -182,6 +183,7 @@ public:
 	}
 
 	void handleEvent() {
+		
 		while (window.pollEvent(event))
 		{
 			switch (event.type)
