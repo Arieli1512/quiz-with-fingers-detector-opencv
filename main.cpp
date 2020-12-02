@@ -1,8 +1,9 @@
 ﻿#include <iostream>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
-#include "processing.h"
-#include "questions.h"
+#include "FingersDetector.h"
+#include "Question.h"
+#include "QuestionList.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
 
