@@ -158,7 +158,8 @@ public:
 		Text text2;
 		text2.setFont(font);
 		text2.setCharacterSize(40);
-		text2.setString(L"Przed tobą quiz skaadający się z 10 pytań.\nPokazuj palce, aby odpowiadać na pytania!\nAby rozpocząć grę pokaż 5 palców.");
+		text2.setString(L"Przed tobą Quiz składający się z 10 pytań.\n"
+			"Pokazuj palce, aby odpowiadać na pytania!\nAby rozpocząć grę pokaż 5 palców.");
 		text2.setOrigin(text2.getLocalBounds().width / 2.0f, text2.getLocalBounds().height / 2.0f);
 		text2.setPosition(window.getSize().x / 2.0f, (window.getSize().y / 2.0f)-60);
 		int flag = 0;
