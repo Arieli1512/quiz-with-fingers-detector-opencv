@@ -247,10 +247,9 @@ public:
 		questionBox.setTexture(&button);
 		questionBox.setFillColor(sf::Color::White);
 
-		//questionBox.setOrigin(questionBox.getSize().x / 2.0f, questionBox.getSize().y / 2.0f);
-		//questionBox.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
+		
 
-		textQuestions.setPosition(window.getSize().x / 2.0f, (window.getSize().y / 2.0f)-100);
+		textQuestions.setPosition(window.getSize().x / 2.0f, (window.getSize().y / 2.0f) - 100);
 		window.setFramerateLimit(60);
 		//window.clear(sf::Color(255, 255, 255));
 		Text score("Pytanie 1/20", font);
@@ -412,7 +411,7 @@ public:
 int main() {
 
 
-	RectangleShape questionBox(Vector2f(1200, 400.0f));
+	RectangleShape questionBox(Vector2f(1200, 410.0f));
 	vector<RectangleShape> answersBox(5, RectangleShape(Vector2f(240, 240)));
 	QuestionList questionList;
 	FingersDetector fingersDetector;
