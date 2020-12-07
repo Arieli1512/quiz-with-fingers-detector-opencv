@@ -31,6 +31,7 @@ private:
 	Event event;
 	Text currentQuestion;
 	VideoCapture camera;
+
 	Mat drawing;
 	Time elapsed;
 	Clock clock;
@@ -44,7 +45,7 @@ private:
 public:
 	RenderWindow window;
 	Quiz(RectangleShape questionBox, vector<RectangleShape> answersBox, QuestionList questionList, FingersDetector fingersDetector)
-		:window(VideoMode(1800, 650), "Quiz", Style::Close | Style::Resize)
+		:window(VideoMode(1200.0f, 650.0f), "Quiz", Style::Close | Style::Resize) //1800 650
 	{
 		this->questionBox = questionBox;
 		this->answersBox = answersBox;
@@ -61,6 +62,7 @@ public:
 	void configCamera() {
 		VideoCapture cam1(0);
 		this->camera = cam1;
+
 	}
 
 
@@ -68,18 +70,21 @@ public:
 	{
 		window.clear();
 		destroyWindow("window");
+		destroyWindow("window real");
 		this->camera.release();
 
-		RectangleShape endScreen(Vector2f(1800, 650.0f));
+
+		RectangleShape endScreen(Vector2f(1200.0f, 650.0f));
 		endScreen.setTexture(&questionTexture);
-		endScreen.setOrigin(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
-		endScreen.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
+		//endScreen.setOrigin(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
+		//endScreen.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
+
 		Text text2;
 		text2.setFont(font);
-		text2.setCharacterSize(70);
-		text2.setString(L" Koniec gry \n Twój wynik to: " + to_string(score)+L" punktów");
+		text2.setCharacterSize(40);
+		text2.setString(L"Gra skończona, Twój wynik to: " + to_string(score)+L" punktów");
 		text2.setOrigin(text2.getLocalBounds().width / 2.0f, text2.getLocalBounds().height / 2.0f);
-		text2.setPosition(900, 325);
+		text2.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
 		while (true)
 		{
 			window.clear();
@@ -90,26 +95,52 @@ public:
 		}
 	}
 	void startingScreen() {
+
+
+
+		Texture texture;
+		Image image;
+		image.loadFromFile("../imagesSfml/medal.png");
+		//image.createMaskFromColor(sf::Color::White);
+		texture.loadFromImage(image);
+
+
+		Texture texture2;
+		Image image2;
+		image2.loadFromFile("../imagesSfml/answer.png");
+		//image.createMaskFromColor(sf::Color::White);
+		texture2.loadFromImage(image2); 
+
+
+		Sprite sprite;
+		sprite.setTexture(texture);
+		sprite.setPosition(200, 10);
+
+
+		Sprite sprite2;
+		sprite2.setTexture(texture2);
+		sprite2.setPosition(1100, 10);
+
 		font.loadFromFile("../fonts/AllerDisplay.ttf");
 		questionTexture.loadFromFile("../imagesSfml/baner4.jpg");
-		RectangleShape helloScreen(Vector2f(1800, 650.0f));
+		RectangleShape helloScreen(Vector2f(1200.0f, 650.0f));
 		helloScreen.setTexture(&questionTexture);
 		helloScreen.setOrigin(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
-		helloScreen.setPosition(900, 325);
+	
+		helloScreen.setPosition(helloScreen.getLocalBounds().width/2.0f, helloScreen.getLocalBounds().height / 2.0f);
 
 		Text text1;
 		text1.setPosition(25, 10);
 		text1.setFont(font);
-		text1.setCharacterSize(55);
+		text1.setCharacterSize(45);
 		text1.setString(L"QUIZ");
 
 		Text text2;
 		text2.setFont(font);
-		text2.setCharacterSize(70);
-		text2.setString(L"Aby rozpocząć grę pokaż do kamery\n pięć palców");
+		text2.setCharacterSize(40);
+		text2.setString(L"Aby rozpocząć grę pokaż 5 palców\nPrzed tobą quiz składający się z 10 pytań");
 		text2.setOrigin(text2.getLocalBounds().width / 2.0f, text2.getLocalBounds().height / 2.0f);
-		text2.setPosition(900, 325);
-
+		text2.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
 		int flag = 0;
 
 		while (true) {
@@ -118,6 +149,8 @@ public:
 				window.draw(helloScreen);
 				window.draw(text1);
 				window.draw(text2);
+				//window.draw(sprite);
+				window.draw(sprite2);
 				window.display();
 				handleEvent();
 				if (flag == 0)
@@ -138,17 +171,57 @@ public:
 
 
 	}
+
+	void waitingScreen() {
+		window.clear();
+
+
+
+	
+
+		RectangleShape waitScreen(Vector2f(1200.0f, 650.0f));
+		waitScreen.setTexture(&questionTexture);
+
+		//waitScreen.setOrigin(waitScreen.getLocalBounds().width / 2.0f, waitScreen.getLocalBounds().height / 2.0f);
+		//waitScreen.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
+		Text text2;
+		text2.setFont(font);
+		text2.setCharacterSize(40);
+
+
+		//text2.setOrigin(text2.getLocalBounds().width / 2.0f, text2.getLocalBounds().height / 2.0f);
+		//text2.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
+
+		while (true)
+		{
+			window.clear();
+			window.draw(waitScreen);
+			elapsed = clock.getElapsedTime();
+			int timeRemained = timer - (int)elapsed.asSeconds();
+			if (timeRemained == 0) {
+				clock.restart();
+				return;
+			}
+			text2.setOrigin(text2.getLocalBounds().width / 2.0f, text2.getLocalBounds().height / 2.0f);
+			text2.setPosition(window.getSize().x / 2.0f, (window.getSize().y / 2.0f));
+			text2.setString(L"Quiz rozpocznie się za " + to_string(timeRemained)+" ...");
+			detectFingers();
+			window.draw(text2);
+			window.display();
+			handleEvent();
+		}
+	}
 	void setUp() {
 
-		int x = questionList.readQuesionsFromFile("../pytania_projekt.txt");
+		int x = questionList.readQuesionsFromFile("../pytania_projekt_sport.txt");
 		if (x == -1) {
 			return;
 		}
 
 		questionList.mixQuestions();
 
-		textAnswers.setCharacterSize(36);
-		textQuestions.setCharacterSize(45);
+		textAnswers.setCharacterSize(25);
+		textQuestions.setCharacterSize(35);
 
 		textAnswers.setFont(font);
 		textQuestions.setFont(font);
@@ -174,10 +247,10 @@ public:
 		questionBox.setTexture(&button);
 		questionBox.setFillColor(sf::Color::White);
 
-		questionBox.setOrigin(questionBox.getSize().x / 2.0f, questionBox.getSize().y / 2.0f);
-		questionBox.setPosition(900, 200);
+		//questionBox.setOrigin(questionBox.getSize().x / 2.0f, questionBox.getSize().y / 2.0f);
+		//questionBox.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
 
-		textQuestions.setPosition(900, 200);
+		textQuestions.setPosition(window.getSize().x / 2.0f, (window.getSize().y / 2.0f)-100);
 		window.setFramerateLimit(60);
 		//window.clear(sf::Color(255, 255, 255));
 		Text score("Pytanie 1/20", font);
@@ -187,9 +260,9 @@ public:
 			answersText[i].setFillColor(Color::White);
 			answersBox[i].setOrigin(answersBox[i].getSize().x / 2.0f, answersBox[i].getSize().y / 2.0f);
 			answersText[i].setOrigin(answersText[i].getLocalBounds().width / 2.0f, answersText[i].getLocalBounds().height / 2.0f);
-			answersBox[i].setPosition(180.0f + 360.0f * i, 550.0f);
+			answersBox[i].setPosition(120.0f + 240.0f * i, 525.0f);
 			answersText[i].setPosition(answersBox[i].getPosition());
-			answersText[i].setPosition(180.0f + 360.0f * i, 500.0f);
+			answersText[i].setPosition(120.0f + 240.0f * i, 525.0f);
 		}
 
 
@@ -204,8 +277,8 @@ public:
 				window.close();
 				break;
 			case Event::Resized:
-				cout << window.getSize().x << endl;
-				cout << window.getSize().y << endl;
+				//cout << window.getSize().x << endl;
+				//cout << window.getSize().y << endl;
 				//window.setView(sf::View(window.getView().getCenter(), sf::Vector2f((float)event.size.width, (float)event.size.height)));
 				break;
 
@@ -216,8 +289,17 @@ public:
 
 	int detectFingers() {
 		cv::Mat img;
+		Mat partImg;
+		
 		camera.read(img);
-		Mat thres = fingersDetector.processingImage(img);
+		cv::Rect rect = cv::Rect(cv::Point2f(10, 10), cv::Point2f(300, 300));
+		rectangle(img, cv::Point2f(10, 10), cv::Point2f(300, 300), cv::Scalar(255, 0, 0));
+		partImg = img(rect);
+		
+		cv::imshow("window real", img);
+
+
+		Mat thres = fingersDetector.processingImage(partImg);
 		if (thres.empty()) {
 			return -1;
 		}
@@ -229,8 +311,11 @@ public:
 		numOfFingers = fingersDetector.countFingers(contours, drawing, convDefect);
 
 
-		cv::putText(drawing, to_string(numOfFingers), cv::Point(50, 50), FONT_HERSHEY_SIMPLEX, 2, 255);
+		cv::putText(drawing, to_string(numOfFingers), cv::Point(50, 50), FONT_HERSHEY_SIMPLEX, 2, Scalar(0,0,255),3);
 		cv::imshow("window", drawing);
+		//cv::imshow("real window",img );
+		//waitKey(40);
+		//cv::imshow("window real", pic);
 		return numOfFingers;
 	}
 
@@ -251,13 +336,13 @@ public:
 			textP.setFillColor(Color::Red);
 			break;
 		}
-		textP.setPosition(1495, 10);
-		timerW.setPosition(1495, 50);
+		textP.setPosition(window.getSize().x-250, 10);
+		timerW.setPosition(window.getSize().x - 200, 50);
 		timerW.setFont(font);
-		timerW.setCharacterSize(50);
+		timerW.setCharacterSize(35);
 		timerW.setFillColor(Color::White);
 		textP.setFont(font);
-		textP.setCharacterSize(30);
+		textP.setCharacterSize(25);
 		currentScore.setPosition(10, 60);
 		currentScore.setCharacterSize(30);
 		currentScore.setFont(font);
@@ -327,8 +412,8 @@ public:
 int main() {
 
 
-	RectangleShape questionBox(Vector2f(1800.0f, 400.0f));
-	vector<RectangleShape> answersBox(5, RectangleShape(Vector2f(360, 300)));
+	RectangleShape questionBox(Vector2f(1200, 400.0f));
+	vector<RectangleShape> answersBox(5, RectangleShape(Vector2f(240, 240)));
 	QuestionList questionList;
 	FingersDetector fingersDetector;
 
@@ -345,8 +430,9 @@ int main() {
 		try {
 			mainController.handleEvent();
 			int x = mainController.detectFingers();
-			if (x == 5 && startFlag == 0) {
+			if (x >1 && startFlag == 0) {
 				mainController.clockReset();
+				mainController.waitingScreen();
 				mainController.handleAnswers();
 				startFlag = 1;
 			}
