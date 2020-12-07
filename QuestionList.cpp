@@ -21,6 +21,16 @@ int QuestionList::readQuesionsFromFile(string pathToFile) {
 		wstring textQuestion;
 
 		getline(file, textQuestion);
+		size_t len = textQuestion.length();
+		//wcout << textQuestion<<endl;
+		//wcout << textQuestion.at(len-1) << endl;
+		
+		if (textQuestion.at(len-1)!='\?') {
+			wstring nextLine;
+			getline(file, nextLine);
+			textQuestion += '\n';
+			textQuestion.append(nextLine);
+		}
 		question.setQuestion(textQuestion);
 
 		vector < wstring > texts;
