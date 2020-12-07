@@ -94,32 +94,52 @@ public:
 			handleEvent();
 		}
 	}
+	
+	
 	void startingScreen() {
-
-
 
 		Texture texture;
 		Image image;
-		image.loadFromFile("../imagesSfml/medal.png");
+		image.loadFromFile("../imagesSfml/answer.png");
 		//image.createMaskFromColor(sf::Color::White);
 		texture.loadFromImage(image);
-
-
-		Texture texture2;
-		Image image2;
-		image2.loadFromFile("../imagesSfml/answer.png");
-		//image.createMaskFromColor(sf::Color::White);
-		texture2.loadFromImage(image2); 
-
-
 		Sprite sprite;
 		sprite.setTexture(texture);
-		sprite.setPosition(200, 10);
+		sprite.setPosition(1100, 10);
+
+		//vector<Sprite> sprites = setFingersIcons();
+		vector<string> names;
+		vector<Sprite> sprites;
+		vector<Texture> textures;
+		vector<Image> images;
+		names.push_back("../imagesSfml/finger.png");
+		names.push_back("../imagesSfml/two-fingers.png");
+		names.push_back("../imagesSfml/three-fingers.png");
+		names.push_back("../imagesSfml/four-fingers.png");
+		names.push_back("../imagesSfml/five-fingers.png");
+
+		for (int i = 0; i < 5; i++) {
+
+			Texture texture2;
+			Image image2;
+			image2.loadFromFile(names.at(i));
+			//image.createMaskFromColor(sf::Color::White);
+			images.push_back(image2);
+			texture2.loadFromImage(images.at(i));
+
+			textures.push_back(texture2);
+		}
+
+		for(int i=0;i<5;i++){
+			Sprite sprite2;
+			sprite2.setTexture(textures.at(i));
+			sprite2.setPosition(250+i*150, 400);
+			sprites.push_back(sprite2);
+		}
 
 
-		Sprite sprite2;
-		sprite2.setTexture(texture2);
-		sprite2.setPosition(1100, 10);
+
+
 
 		font.loadFromFile("../fonts/AllerDisplay.ttf");
 		questionTexture.loadFromFile("../imagesSfml/baner4.jpg");
@@ -138,9 +158,9 @@ public:
 		Text text2;
 		text2.setFont(font);
 		text2.setCharacterSize(40);
-		text2.setString(L"Aby rozpocząć grę pokaż 5 palców\nPrzed tobą quiz składający się z 10 pytań");
+		text2.setString(L"Przed tobą quiz skaadający się z 10 pytań.\nPokazuj palce, aby odpowiadać na pytania!\nAby rozpocząć grę pokaż 5 palców.");
 		text2.setOrigin(text2.getLocalBounds().width / 2.0f, text2.getLocalBounds().height / 2.0f);
-		text2.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
+		text2.setPosition(window.getSize().x / 2.0f, (window.getSize().y / 2.0f)-60);
 		int flag = 0;
 
 		while (true) {
@@ -149,8 +169,14 @@ public:
 				window.draw(helloScreen);
 				window.draw(text1);
 				window.draw(text2);
-				//window.draw(sprite);
-				window.draw(sprite2);
+
+				window.draw(sprite);
+
+				for (int i = 0; i < sprites.size(); i++) {
+
+					window.draw(sprites.at(i));
+				}
+				//window.draw(sprite2);
 				window.display();
 				handleEvent();
 				if (flag == 0)
