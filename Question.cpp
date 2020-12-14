@@ -34,19 +34,6 @@ void Question::compareAnswers(wstring correctAnswer) {
 	}
 }
 
-void Question::print() {
-
-	wcout << question << "\n";
-
-	for (int i = 0; i < answers.size(); i++) {
-
-		wcout << i + 1 << ") " << answers.at(i) << endl;
-	}
-	cout << "\n";
-
-
-}
-
 wstring Question::getCorrectAnswerName() {
 	return answers.at(correctAnswer);
 }
