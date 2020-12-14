@@ -20,6 +20,8 @@ add_executable(Projekt_kompetencyjny
 	Question.h
 	QuestionList.cpp
 	QuestionList.h
+	Quiz.cpp
+	Quiz.h
 )
 
 
