@@ -27,7 +27,5 @@ public:
 	int getCorrectAnswer();
 	wstring getCorrectAnswerName();
 	void compareAnswers(wstring correctAnswer);
-	void print();
 	void mixAnswers();
-
 };
