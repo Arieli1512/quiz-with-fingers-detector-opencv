@@ -12,9 +12,10 @@ class QuestionList {
 
 private:
 	vector<Question> questionArray;
-
+	wstring readQuestion(wifstream& file);
+	vector<wstring> readAnswers(wifstream& file);
 public:
 	vector<Question> getQuestionArray();
-	int readQuesionsFromFile(string pathToFile);
+	int readFromFile(string pathToFile);
 	void mixQuestions();
 };
