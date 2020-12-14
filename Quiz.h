@@ -33,7 +33,7 @@ private:
 	Clock clock;
 
 	int qs = 0;
-	int timer = 2;
+	int timer = 10;
 	int totalQuestions = 10;
 	int flag = 0;
 	int score = 0;
