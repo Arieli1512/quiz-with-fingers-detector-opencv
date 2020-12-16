@@ -38,6 +38,7 @@ private:
 	int flag = 0;
 	int score = 0;
 	int numOfFingers = 0;
+	int category=0;
 
 	vector<Sprite> configureSpritesIcons(vector<string>& names, vector<Texture>& textures, vector<Image>& images);
 	void configurateStartingScreen(Text& text1, Text& text2, RectangleShape& helloScreen);
@@ -58,6 +59,7 @@ public:
 	void showStartingScreen();
 	void showWaitingScreen();
 	void showEndingScreen();
+	void showCategoryScreen();
 	void handleEvent();
 	int detectFingers();
 	int handleAnswers();

@@ -131,7 +131,57 @@ void Quiz::showStartingScreen() {
 	}
 
 }
+void Quiz::showCategoryScreen()
+{
+	window.clear();
+	RectangleShape categoryScreen(Vector2f(1200.0f, 650.0f));
+	categoryScreen.setTexture(&questionTexture);
+	Text text3, text4;
+	text3.setFont(font);
+	text3.setCharacterSize(40);
+	text4.setFont(font);
+	text4.setCharacterSize(40);
+	text3.setPosition(10, 10);
 
+	text4.setPosition(20, 50);
+
+	text4.setString(L"1- sport\n2-zwierzêta\n3-film\n4-geografia\n5-ogólne");
+	clockReset();
+	try
+	{
+		while (true)
+		{
+			
+			window.clear();
+			window.draw(categoryScreen);
+			elapsed = clock.getElapsedTime();
+			int timeRemained = timer - (int)elapsed.asSeconds();
+			if (timeRemained == 0) {
+				try
+				{
+					category = detectFingers();
+				}
+				catch (exception& e)
+				{
+				}
+				//clockReset();
+				return;
+			}
+			text3.setString(L"Wybierz kategoriê w przeci¹gu: " + to_string(timeRemained) + " sekund");
+			try { detectFingers(); }
+			catch (exception& e)
+			{ }
+			window.draw(text3);
+			window.draw(text4);
+			window.display();
+			handleEvent();
+		}
+
+	}
+	catch (cv::Exception& e) {
+	}
+	return;
+}
 void Quiz::showWaitingScreen() {
 	window.clear();
 
@@ -154,7 +204,14 @@ void Quiz::showWaitingScreen() {
 		text2.setOrigin(text2.getLocalBounds().width / 2.0f, text2.getLocalBounds().height / 2.0f);
 		text2.setPosition(window.getSize().x / 2.0f, (window.getSize().y / 2.0f));
 		text2.setString(L"Quiz rozpocznie siê za " + to_string(timeRemained) + " ...");
-		detectFingers();
+		
+		try {
+			detectFingers();
+		}
+		catch (exception& e)
+		{
+
+		}
 		window.draw(text2);
 		window.display();
 		handleEvent();
@@ -175,10 +232,33 @@ void Quiz::setUpBoxes() {
 }
 
 
-void Quiz::setUp() {
 
-	int x = questionList.readFromFile("../pytania_projekt_sport.txt");
+void Quiz::setUp() {
+	int x;
+	cout << category;
+	switch (category)
+	{
+	case 1:
+		x = questionList.readFromFile("../pytania_projekt_sport.txt");
+		break;
+	case 2:
+		x = questionList.readFromFile("../pytania_projekt_zwierzeta.txt");
+		break;
+	case 3:
+		x = questionList.readFromFile("../pytania_projekt_film.txt");
+		break;
+	case 4:
+		x = questionList.readFromFile("../pytania_projekt_geografia.txt");
+		break;
+	case 5:
+		x = questionList.readFromFile("../pytania_projekt.txt");
+		break;
+	default:
+		x = questionList.readFromFile("../pytania_projekt_zwierzeta.txt");
+
+	}
 	if (x == -1) {
+		cout << "Error-file not loaded";
 		return;
 	}
 
@@ -211,6 +291,7 @@ void Quiz::setUp() {
 
 
 }
+
 
 void Quiz::handleEvent() {
 	while (window.pollEvent(event))
