@@ -20,17 +20,18 @@ int main() {
 	RectangleShape questionBox(Vector2f(1200, 410.0f));
 	vector<RectangleShape> answersBox(5, RectangleShape(Vector2f(240, 240)));
 	Quiz quiz(questionBox,answersBox);
-	quiz.showStartingScreen();
-	quiz.setUp();
 
+	quiz.showStartingScreen();
+	quiz.showCategoryMenu();
+	quiz.setUp();
+	//quiz.showStartingScreen();
 	int startFlag = 0;
 	int highFive = 5;
 
 	while (true) {
 		try {
 			quiz.handleEvent();
-			int x = quiz.detectFingers();
-			if (x == highFive && startFlag == 0) {
+			if (startFlag == 0) {
 				quiz.clockReset();
 				quiz.showWaitingScreen();
 				quiz.handleAnswers();

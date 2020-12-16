@@ -1,4 +1,4 @@
-Rozwiąż równanie: 8*7
+Rozwiąż równanie: 8*7?
 48
 64
 52
@@ -12,7 +12,7 @@ W którym roku była bitwa pod Grunwaldem?
 776
 1121
 1410
-Rozwiąż równanie: 2+2*2
+Rozwiąż równanie: 2+2*2?
 8
 6
 12
@@ -89,7 +89,7 @@ Gżegżułka
 Grzegrzułka
 Gżegżółka
 Gżegżółka
-Podaj wzór na pole trapezu
+Podaj wzór na pole trapezu?
 a*a
 a^2
 (a+b)*h/2
