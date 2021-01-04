@@ -24,28 +24,91 @@ void Quiz::showEndingScreen()
 	Text text2;
 	text2.setFont(font);
 	text2.setCharacterSize(40);
-	text2.setString(L"Gra skoñczona, Twój wynik to: " + to_string(score) + L" punktów");
+	wstring endPoints;
+
+	Texture texture2;
+	Image image2;
+	Sprite sprite2;
+	Texture texture3;
+	Image image3;
+	Sprite sprite3;
+
+
+	if (score == 1) {
+		endPoints = L" punkt";
+	}
+	else if (score > 1 && score < 5) {
+		endPoints = L" punkty";
+	}
+	else
+		endPoints = L" punktów";
+
+	text2.setString(L"Gra skoñczona, Twój wynik to: " + to_string(score) + endPoints);
 	text2.setOrigin(text2.getLocalBounds().width / 2.0f, text2.getLocalBounds().height / 2.0f);
 	text2.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
+
+
+
+
+
+
+	Text text3;
+	text3.setFont(font);
+	text3.setCharacterSize(50);
+	if (score > 7) {
+		text3.setString("Gratulacje!");
+		text3.setCharacterSize(50);
+		text3.setFillColor(Color::Green);
+		image2.loadFromFile("../imagesSfml/fire-cracker.png");
+		image3.loadFromFile("../imagesSfml/fire-cracker2.png");
+	}
+	else if (score >= 5) {
+		text3.setString(L"Niez³y wynik!");
+		text3.setCharacterSize(40);
+		text3.setFillColor(Color::Green);
+		image2.loadFromFile("../imagesSfml/smile.png");
+		image3.loadFromFile("../imagesSfml/fire-cracker2.png");
+	}
+	else{ 
+		text3.setString(L"Mo¿e spróbuj jeszce raz?"); 
+		text3.setCharacterSize(35);
+		image2.loadFromFile("../imagesSfml/sad.png");
+		image3.loadFromFile("../imagesSfml/sad.png");
+	}
+	texture2.loadFromImage(image2);
+	texture3.loadFromImage(image3);
+
+	sprite2.setTexture(texture2);
+	sprite2.setPosition(200, 100);
+
+	sprite3.setTexture(texture3);
+	sprite3.setPosition(850, 100);
+
+	text3.setOrigin(text3.getLocalBounds().width / 2.0f, text3.getLocalBounds().height / 2.0f);
+	text3.setPosition(window.getSize().x / 2.0f, (window.getSize().y / 2.0f)-150);
+
 	while (true)
 	{
 		window.clear();
 		window.draw(endScreen);
 		window.draw(text2);
+		window.draw(text3);
+		window.draw(sprite2);
+		window.draw(sprite3);
 		window.display();
 		handleEvent();
 	}
 }
 
 
-vector<Sprite> Quiz::configureSpritesIcons(vector<string>& names, vector<Texture>& textures, vector<Image>& images) {
+vector<Sprite> Quiz::configureSpritesIcons(vector<string>& names, vector<Texture>& textures, vector<Image>& images,int x, int y, int shift) {
 
 	vector<Sprite> sprites;
-	names.push_back("../imagesSfml/finger.png");
-	names.push_back("../imagesSfml/two-fingers.png");
-	names.push_back("../imagesSfml/three-fingers.png");
-	names.push_back("../imagesSfml/four-fingers.png");
-	names.push_back("../imagesSfml/five-fingers.png");
+	//names.push_back("../imagesSfml/finger.png");
+	//names.push_back("../imagesSfml/two-fingers.png");
+	//names.push_back("../imagesSfml/three-fingers.png");
+	//names.push_back("../imagesSfml/four-fingers.png");
+	//names.push_back("../imagesSfml/five-fingers.png");
 
 	for (int i = 0; i < 5; i++) {
 
@@ -60,7 +123,7 @@ vector<Sprite> Quiz::configureSpritesIcons(vector<string>& names, vector<Texture
 	for (int i = 0; i < 5; i++) {
 		Sprite sprite2;
 		sprite2.setTexture(textures.at(i));
-		sprite2.setPosition(250 + i * 150, 400);
+		sprite2.setPosition(x + i * shift, y);
 		sprites.push_back(sprite2);
 	}
 	return sprites;
@@ -94,7 +157,12 @@ void Quiz::showStartingScreen() {
 	vector<string> names;
 	vector<Texture> textures;
 	vector<Image> images;
-	vector<Sprite> sprites = configureSpritesIcons(names, textures, images);
+	names.push_back("../imagesSfml/finger.png");
+	names.push_back("../imagesSfml/two-fingers.png");
+	names.push_back("../imagesSfml/three-fingers.png");
+	names.push_back("../imagesSfml/four-fingers.png");
+	names.push_back("../imagesSfml/five-fingers.png");
+	vector<Sprite> sprites = configureSpritesIcons(names, textures, images,250,400,150);
 	font.loadFromFile("../fonts/AllerDisplay.ttf");
 	questionTexture.loadFromFile("../imagesSfml/baner4.jpg");
 	RectangleShape helloScreen(Vector2f(1200.0f, 650.0f));
@@ -133,19 +201,63 @@ void Quiz::showStartingScreen() {
 }
 void Quiz::showCategoryScreen()
 {
+	vector<RectangleShape> answersBox(5, RectangleShape(Vector2f(220, 220)));
+	Text textCategories;
+	textCategories.setFont(font);
+	textCategories.setCharacterSize(25);
+	vector<Text> answersTextx(5, textCategories);
+
+	vector<wstring> namesCategory;
+	namesCategory.push_back(L"Sport");
+	namesCategory.push_back(L"Zwierzêta");
+	namesCategory.push_back(L"Film");
+	namesCategory.push_back(L"Geografia");
+	namesCategory.push_back(L"Ogólne");
+
+
+	for (int i = 0; i < answersBox.size(); i++) {
+		answersTextx[i].setFillColor(Color::White);
+		answersTextx[i].setString(namesCategory.at(i));
+		answersBox[i].setOrigin(answersBox[i].getSize().x / 2.0f, answersBox[i].getSize().y / 2.0f);
+		answersTextx[i].setOrigin(answersTextx[i].getLocalBounds().width / 2.0f, answersTextx[i].getLocalBounds().height / 2.0f);
+		answersBox[i].setPosition(120.0f + 240.0f * i, 425.0f);
+		answersTextx[i].setPosition(answersBox[i].getPosition());
+		answersTextx[i].setPosition(120.0f + 240.0f * i, 425.0f);
+		window.draw(answersBox[i]);
+		window.draw(answersTextx[i]);
+	}
+
+	answersBox[0].setFillColor(sf::Color::Magenta);
+	answersBox[1].setFillColor(sf::Color::Red);
+	answersBox[2].setFillColor(sf::Color::Blue);
+	answersBox[3].setFillColor(sf::Color(0, 153, 51));
+	answersBox[4].setFillColor(sf::Color(102, 20, 179));
+
 	window.clear();
 	RectangleShape categoryScreen(Vector2f(1200.0f, 650.0f));
 	categoryScreen.setTexture(&questionTexture);
 	Text text3, text4;
 	text3.setFont(font);
 	text3.setCharacterSize(40);
-	text4.setFont(font);
-	text4.setCharacterSize(40);
-	text3.setPosition(10, 10);
+	//text4.setFont(font);
+	//text4.setCharacterSize(40);
 
-	text4.setPosition(20, 50);
 
-	text4.setString(L"1- sport\n2-zwierzêta\n3-film\n4-geografia\n5-ogólne");
+	//text4.setPosition(20, 50);
+	//text4.setString(L"1- sport\n2-zwierzêta\n3-film\n4-geografia\n5-ogólne");
+
+	vector<string> names;
+	vector<Texture> textures;
+	vector<Image> images;
+	names.push_back("../imagesSfml/running-man.png");
+	names.push_back("../imagesSfml/podium.png");
+	names.push_back("../imagesSfml/video.png");
+	names.push_back("../imagesSfml/globe.png");
+	names.push_back("../imagesSfml/hat.png");
+	vector<Sprite> sprites = configureSpritesIcons(names, textures, images,90,230,240);
+
+
+
 	clockReset();
 	try
 	{
@@ -154,6 +266,7 @@ void Quiz::showCategoryScreen()
 			
 			window.clear();
 			window.draw(categoryScreen);
+
 			elapsed = clock.getElapsedTime();
 			int timeRemained = timer - (int)elapsed.asSeconds();
 			if (timeRemained == 0) {
@@ -164,10 +277,18 @@ void Quiz::showCategoryScreen()
 				catch (exception& e)
 				{
 				}
-				//clockReset();
 				return;
 			}
+			for (int i = 0; i < sprites.size(); i++)
+				window.draw(sprites.at(i));
 			text3.setString(L"Wybierz kategoriê w przeci¹gu: " + to_string(timeRemained) + " sekund");
+			text3.setOrigin(text3.getLocalBounds().width / 2.0f, text3.getLocalBounds().height / 2.0f);
+			text3.setPosition(window.getSize().x / 2.0f,120.0f);
+			for (int i = 0; i < answersBox.size(); i++) {
+				window.draw(answersBox[i]);
+				window.draw(answersTextx[i]);
+			}
+
 			try { detectFingers(); }
 			catch (exception& e)
 			{ }
@@ -235,7 +356,8 @@ void Quiz::setUpBoxes() {
 
 void Quiz::setUp() {
 	int x;
-	cout << category;
+	cout << "its category "<<category<<endl;
+	category = 3;
 	switch (category)
 	{
 	case 1:
@@ -254,8 +376,8 @@ void Quiz::setUp() {
 		x = questionList.readFromFile("../pytania_projekt.txt");
 		break;
 	default:
-		x = questionList.readFromFile("../pytania_projekt_zwierzeta.txt");
-
+		x = questionList.readFromFile("../pytania_projekt.txt");
+		break;
 	}
 	if (x == -1) {
 		cout << "Error-file not loaded";
@@ -289,7 +411,7 @@ void Quiz::setUp() {
 		answersText[i].setPosition(120.0f + 240.0f * i, 525.0f);
 	}
 
-
+	cout << category;
 }
 
 
@@ -308,14 +430,36 @@ void Quiz::handleEvent() {
 	}
 }
 
+Point2f Quiz::readFromFileCoordinates() {
+	ifstream file;
+	string coordX;
+	string coordY;
 
+	file.open("../config.txt");
+	if (file.fail() == true)
+		return NULL;
+
+	getline(file, coordX);
+	int resX = stoi(coordX);
+	getline(file, coordY);
+	int resY = stoi(coordY);
+
+	Point2f point = Point2f(resX, resY);
+
+
+	return point;
+}
 int Quiz::detectFingers() {
 	cv::Mat img;
 	Mat partImg;
 
 	camera.read(img);
-	cv::Rect rect = cv::Rect(cv::Point2f(10, 10), cv::Point2f(300, 300));
-	rectangle(img, cv::Point2f(10, 10), cv::Point2f(300, 300), cv::Scalar(255, 0, 0));
+	Point2f point = readFromFileCoordinates();
+		
+	
+
+	cv::Rect rect = cv::Rect(cv::Point2f(point.x, point.y), cv::Point2f(300+point.x, 300+point.y));
+	rectangle(img, cv::Point2f(point.x, point.y), cv::Point2f(300 + point.x, 300 + point.y), cv::Scalar(255, 0, 0));
 	partImg = img(rect);
 
 	cv::imshow("window real", img);
@@ -411,6 +555,9 @@ int Quiz::handleAnswers() {
 	currentScore.setString("Punkty " + to_string(score));
 	window.draw(textP);
 	window.draw(currentScore);
+	if (timeRemained < 4)
+		timerW.setColor(Color::Red);
+	else timerW.setColor(Color::White);
 	window.draw(timerW);
 	for (int i = 0; i < answersBox.size(); i++) {
 
