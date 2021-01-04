@@ -33,19 +33,21 @@ private:
 	Clock clock;
 
 	int qs = 0;
-	int timer = 10;
+	int timer = 1;
 	int totalQuestions = 10;
 	int flag = 0;
-	int score = 0;
+	int score = 5;
 	int numOfFingers = 0;
 	int category=0;
 
-	vector<Sprite> configureSpritesIcons(vector<string>& names, vector<Texture>& textures, vector<Image>& images);
+	vector<Sprite>configureSpritesIcons(vector<string>& names, vector<Texture>& textures, vector<Image>& images, int x, int y, int shift);
 	void configurateStartingScreen(Text& text1, Text& text2, RectangleShape& helloScreen);
 	void setUpBoxes();
 	void checkAnswer();
 	void configureText(Text& textP, Text& currentScore, Text& timerW);
 	void showContentOnScreen(int i);
+	Point2f Quiz::readFromFileCoordinates();
+
 public:
 	Quiz(RectangleShape questionBox, vector<RectangleShape> answersBox)
 		:window(VideoMode(1200.0f, 650.0f), "Quiz", Style::Close | Style::Resize)
