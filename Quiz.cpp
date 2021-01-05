@@ -356,8 +356,7 @@ void Quiz::setUpBoxes() {
 
 void Quiz::setUp() {
 	int x;
-	cout << "its category "<<category<<endl;
-	category = 3;
+
 	switch (category)
 	{
 	case 1:
@@ -446,7 +445,7 @@ Point2f Quiz::readFromFileCoordinates() {
 
 	Point2f point = Point2f(resX, resY);
 
-
+	file.close();
 	return point;
 }
 int Quiz::detectFingers() {
