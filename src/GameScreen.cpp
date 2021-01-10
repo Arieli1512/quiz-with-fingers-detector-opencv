@@ -146,22 +146,22 @@ int GameScreen::readCategoryFile(QuestionList& questionList) {
 	int x;
 	switch (category) {
 	case 1:
-		x = questionList.readFromFile("../pytania_projekt_sport.txt");
+		x = questionList.readFromFile("../categories/pytania_projekt_sport.txt");
 		break;
 	case 2:
-		x = questionList.readFromFile("../pytania_projekt_zwierzeta.txt");
+		x = questionList.readFromFile("../categories/pytania_projekt_zwierzeta.txt");
 		break;
 	case 3:
-		x = questionList.readFromFile("../pytania_projekt_film.txt");
+		x = questionList.readFromFile("../categories/pytania_projekt_film.txt");
 		break;
 	case 4:
-		x = questionList.readFromFile("../pytania_projekt_geografia.txt");
+		x = questionList.readFromFile("../categories/pytania_projekt_geografia.txt");
 		break;
 	case 5:
-		x = questionList.readFromFile("../pytania_projekt.txt");
+		x = questionList.readFromFile("../categories/pytania_projekt.txt");
 		break;
 	default:
-		x = questionList.readFromFile("../pytania_projekt.txt");
+		x = questionList.readFromFile("../categories/pytania_projekt.txt");
 		break;
 	}
 	if (x == -1) {
