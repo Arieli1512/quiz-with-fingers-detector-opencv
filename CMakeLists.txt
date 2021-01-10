@@ -2,26 +2,33 @@ cmake_minimum_required(VERSION 3.3.1)
 
 project(Projekt_kompetencyjny)
 
-set(OpenCV_DIR "C:/pk/build")
-set(SFML_DIR "C:/pk/SFML/lib/cmake/SFML")
+set(OpenCV_DIR "C:/Users/micha/OneDrive/Dokumenty/opencv/build")
 set(CMAKE_CXX_STANDARD 14)
-set(SFML_INCLUDE_DIR "C:/pk/SFML/include")
-set(SFML_LIBRARY_DIR "C:/pk/SFML/lib")
+set(SFML_INCLUDE_DIR "./SFML/include")
+set(SFML_LIBRARY_DIR "./SFML/lib")
 
 
 find_package(OpenCV 4.5.0 REQUIRED)
 find_package(SFML 2.5.1 COMPONENTS system window graphics network audio)
 
 add_executable(Projekt_kompetencyjny
-	main.cpp
-	FingersDetector.cpp
-	FingersDetector.h
-	Question.cpp
-	Question.h
-	QuestionList.cpp
-	QuestionList.h
-	Quiz.cpp
-	Quiz.h
+	src/main.cpp
+	src/FingersDetector.cpp
+	src/FingersDetector.h
+	src/Question.cpp
+	src/Question.h
+	src/QuestionList.cpp
+	src/QuestionList.h
+	src/StartupScreen.cpp
+	src/StartupScreen.h
+	src/WaitingScreen.cpp
+	src/WaitingScreen.h
+	src/CategoryScreen.cpp
+	src/CategoryScreen.h
+	src/GameScreen.cpp
+	src/GameScreen.h
+	src/EndingScreen.cpp
+	src/EndingScreen.h
 )
 
 
