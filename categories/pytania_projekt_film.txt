@@ -1,5 +1,5 @@
 Który film zdobył Oscara w 2016 roku
-w kategorii "najlepszy film"?
+w kategorii 'Najlepszy Film'?
 Spotlight
 Zjawa
 Mad Max
@@ -7,7 +7,7 @@ Pokój
 Ex Machina
 Spotlight
 Jaki aktor wcielił się w głównego
-bohatera w filmi "Forest Gump"?
+bohatera w filmie 'Forest Gump'?
 Tom Hanks
 Al Pacino
 Joe Pesci
@@ -22,7 +22,7 @@ Toy Story 3
 Joker
 Avengers
 W którym roku powstał film
-"Szeregowiec Ryan"?
+'Szeregowiec Ryan'?
 1998
 1990
 2000
@@ -30,7 +30,7 @@ W którym roku powstał film
 1988
 1998
 Z kim rywalizowała rodzina Corleone
-w filmie "Ojciec chrzestny"?
+w filmie 'Ojciec chrzestny'?
 Soprano
 Bonanno
 Gambino
@@ -46,15 +46,15 @@ Warszawie
 Wrocławiu
 Krakowie
 Którą pigułkę wybiera od Morfeusza Neo
-w pierwszej części "Matrixa"?
+w pierwszej części 'Matrixa'?
 czerwoną
 niebieską
 żółtą
-czerwoną
+pomarańczową
 białą
 czerwoną
 W którym roku po raz pierwszy ukazał się
-film "Ojciec chrzestny"?
+film 'Ojciec chrzestny'?
 1972
 1975
 1977
@@ -70,7 +70,7 @@ Brosnan
 di Caprio
 Connery
 Jaką postać grał Jack Nicholson w 
-filmie "Lśnienie"?
+filmie 'Lśnienie'?
 Jack Torrance
 Han Solo
 Batman

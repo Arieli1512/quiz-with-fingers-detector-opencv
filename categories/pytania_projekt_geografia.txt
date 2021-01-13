@@ -4,7 +4,7 @@ Ile kontynentów jest na ziemi?
 4
 7
 6
-6
+7
 Najwyższy wodospad na świecie to?
 Niagara
 Wodospad Wikotrii
@@ -12,36 +12,35 @@ Salto Angel
 Tugela
 Kjelfossen
 Salto Angel
-Grenlandia jes terytorium zależnym?
+Grenlandia jest terytorium zależnym?
 Finlandii
 Danii
 Szwecji
 USA
 Kanady
 Danii
-Największa wyspa świata to?
+Jaka jest największa wyspa świata?
 Madagaskar
 Australia
 Grenlandia
 Nowa Gwinea
 Boreno
 Grenlandia
-Jezioro Wiktorii to największe 
-jezioro w?
-Europy
-Azji
-Afryki
-Ameryki Północnej
-Ameryki Południowej
-Afryki
+Wilno, to stolica którego kraju?
+Polski
+Litwy
+Łotwy
+Francji
+Szwecji
+Litwy
 Mieszkańcy, którego państwa
-żyją nadlużej?
-Hiszpania
-Francja
-Australia
-Japonia
-Singapur
-Japonia
+żyją nadłużej?
+Hiszpanii
+Francji
+Australii
+Japonii
+Singapuru
+Japonii
 Stolicą Chin jest?
 Szanghaj
 Tiencin
@@ -65,7 +64,8 @@ Kraków
 Gdańsk
 Wrocław
 Łódź
-Drugi najwyższy szczyt świata to?
+Jaką ma nazwę drugi
+najwyższy szczyt świata?
 Kanczendzonga
 Lhoste
 Makalu

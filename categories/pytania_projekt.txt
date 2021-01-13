@@ -1,4 +1,4 @@
-Rozwiąż równanie: 8*7?
+Jaki jest wynik działania 8*7?
 48
 64
 52
@@ -12,7 +12,7 @@ W którym roku była bitwa pod Grunwaldem?
 776
 1121
 1410
-Rozwiąż równanie: 2+2*2?
+Jaki jest wynik działania 2+2*2?
 8
 6
 12
@@ -61,7 +61,8 @@ Ile lat trwa kadencja Sejmu?
 8
 3
 4
-Z kim walczyli Amerykanie w wojnie secesyjnej?
+Z kim walczyli Amerykanie
+podczas wojny secesyjnej?
 Rosjanami
 Francuzami
 Anglikami
@@ -89,7 +90,7 @@ Gżegżułka
 Grzegrzułka
 Gżegżółka
 Gżegżółka
-Podaj wzór na pole trapezu?
+Jaki jest wzór na pole trapezu?
 a*a
 a^2
 (a+b)*h/2
@@ -117,7 +118,7 @@ Szybka
 Szybszy
 Najszybszy
 Szybko
-Podaj ogólny wzór na siłe:
+Jaki jest ogólny wzór na siłę?
 F=m*a
 F=m/a
 S=m*a
