@@ -1,10 +1,9 @@
 #include "FingersDetector.h"
 
 
-Mat FingersDetector::processingImage(Mat img) {
+Mat FingersDetector::findSkinInRegion(Mat img) {
 
 	Mat img2, imgHSV, blurred, thres;
-
 	cvtColor(img, img2, COLOR_BGR2HSV);
 	inRange(img2, Scalar(0, 48, 80), Scalar(20, 255, 255), imgHSV);
 	blur(imgHSV, blurred, Size(2, 2));
@@ -60,7 +59,6 @@ bool FingersDetector::isFinger(Point startPoint, Point endPoint, Point farPoint,
 	float b = sqrt(pow(farPoint.x - startPoint.x, 2) + pow(farPoint.y - startPoint.y, 2));
 	float c = sqrt(pow(endPoint.x - farPoint.x, 2) + pow(endPoint.y - farPoint.y, 2));
 
-
 	float hc = (a + b + c) / 2;
 	float area = sqrt(hc * (hc - a) * (hc - b) * (hc - c)); //wzor herona
 	float hei = (2 * area) / a; //wysokosc 
@@ -69,15 +67,15 @@ bool FingersDetector::isFinger(Point startPoint, Point endPoint, Point farPoint,
 
 	float angle = acos((pow(b, 2) + pow(c, 2) - pow(a, 2)) / (2 * b * c)) * 57; //1rad = 57stp
 
-	if(flag==true)
-	if (angle < 90 && hei>30) { //jezeli kat mniejszy niz 90 i wysokkosc wieksza niz 30 -> palec
-		return true;
-	}
+	if (flag == true)
+		if (angle < 90 && hei>30) { //jezeli kat mniejszy niz 90 i wysokkosc wieksza niz 30 -> palec
+			return true;
+		}
 
-	if(flag==false)
-	if (angle >= 90 && hei>30) {
-		return true;
-	}
+	if (flag == false)
+		if (angle >= 90 && hei > 30) {
+			return true;
+		}
 
 	return false;
 }
@@ -85,15 +83,14 @@ bool FingersDetector::isFinger(Point startPoint, Point endPoint, Point farPoint,
 
 
 int FingersDetector::countFingers(vector<vector<Point>>& contours, Mat drawing, vector<vector<Vec4i>>& convdefect) {
-	int counterFin = 0;
-	int flag = 0;
+	int counterFin = 0, flag = 0;
 	bool flagFinger = false;
 
 	for (int i = 0; i < contours.size(); i++) {
 
 		size_t counter = contours[i].size(); //ile punktow ma dany kontur
 
-		if (counter < 300) //miedzy 300-600
+		if (counter < 200) //miedzy 200-600
 			continue;
 
 		for (Vec4i& v : convdefect[i]) {
@@ -108,8 +105,8 @@ int FingersDetector::countFingers(vector<vector<Point>>& contours, Mat drawing, 
 			line(drawing, startPoint, farPoint, Scalar(255, 0, 0), 2);
 			line(drawing, endPoint, farPoint, Scalar(0, 0, 255), 2);
 
-			bool val = isFinger(startPoint, endPoint, farPoint,true);
-			if (isFinger(startPoint, endPoint, farPoint,false))
+			bool val = isFinger(startPoint, endPoint, farPoint, true);
+			if (isFinger(startPoint, endPoint, farPoint, false))
 				flag = 1;
 			if (val)counterFin++;
 		}
@@ -119,7 +116,26 @@ int FingersDetector::countFingers(vector<vector<Point>>& contours, Mat drawing, 
 
 	if (flag == 1 && counterFin == 0)counterFin = 1; //jeden palec
 	else if (counterFin > 0)counterFin++; //wiecej
-	
+
 
 	return counterFin;
+}
+
+int FingersDetector::countFingers(Mat img) {
+	Mat thresholdImage = findSkinInRegion(img);
+	if (thresholdImage.empty()) {
+		return -1;
+	}
+	vector<vector<cv::Point>> contours = findContoursImage(thresholdImage);
+	vector<vector<cv::Point>> hull(contours.size());
+	vector<vector<int> > hulls2(contours.size());
+	vector<vector<cv::Vec4i>> convDefect = createConvexity(hull, contours);
+	contoursImage = drawContoursImage(thresholdImage, contours, hull);
+	int numOfFingers = countFingers(contours, contoursImage, convDefect);
+
+	return numOfFingers;
+}
+
+Mat FingersDetector::getContoursImage() {
+	return contoursImage;
 }
