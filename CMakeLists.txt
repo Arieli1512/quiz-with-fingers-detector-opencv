@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.3.1)
 
 project(Projekt_kompetencyjny)
 
-set(OpenCV_DIR "C:/Users/micha/OneDrive/Dokumenty/opencv/build")
+set(OpenCV_DIR "C:/pk/build")
 set(CMAKE_CXX_STANDARD 14)
 set(SFML_INCLUDE_DIR "./SFML/include")
 set(SFML_LIBRARY_DIR "./SFML/lib")
