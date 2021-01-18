@@ -8,21 +8,24 @@
 
 #include "QuestionList.h"
 #include "FingersDetector.h"
+#include "Screen.h"
 
 using namespace std;
 using namespace cv;
 using namespace sf;
 
 
-class EndingScreen {
+class EndingScreen : public Screen {
 public:
-	EndingScreen(RenderWindow& window, VideoCapture camera);
+	EndingScreen(RenderWindow& window, FingersDetector* fingersDetector) :Screen(window) {
+		this->fingersDetector = fingersDetector;
+	}
 	void showEndingScreen();
 	void setScore(int score);
 	int getStatus();
 private:
+	FingersDetector* fingersDetector;
 	VideoCapture camera;
-	RenderWindow& window;
 	Texture texture, texture2;
 	Image image, image2;
 	Sprite sprite, sprite2;
@@ -30,7 +33,5 @@ private:
 	Font font;
 	int score = 0;
 	int status = 0;
-	void handleEvent();
 	void configureEndingScreen(wstring endPoints);
-	int detectFingers();
 };

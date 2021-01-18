@@ -8,25 +8,25 @@
 
 #include "QuestionList.h"
 #include "FingersDetector.h"
+#include "Screen.h"
 
 using namespace std;
 using namespace cv;
 using namespace sf;
 
-class CategoryScreen {
+class CategoryScreen :public Screen {
 public:
-	CategoryScreen(RenderWindow& window, VideoCapture camera);
+	CategoryScreen(RenderWindow& window, FingersDetector* fingersDetector) :Screen(window) {
+		this->fingersDetector = fingersDetector;
+	}
 	void showCategoryScreen();
 	int getCategory();
 private:
-	VideoCapture camera;
-	RenderWindow& window;
+	FingersDetector* fingersDetector;
 	Time elapsed;
 	Clock clock;
 	vector<Sprite> configureSpritesIcons(vector<Texture>& textures, vector<Image>& images, int x, int y, int shift);
 	int category = 0;
-	int timer = 3;
-	void handleEvent();
+	int timer = 10;
 	void configureCategoryBoxes(vector<RectangleShape>& categoryBox, vector<Text>& textCategories);
-	int detectFingers();
 };

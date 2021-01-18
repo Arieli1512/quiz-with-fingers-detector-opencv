@@ -1,23 +1,5 @@
 #include "WaitingScreen.h"
 
-WaitingScreen::WaitingScreen(RenderWindow& window, VideoCapture camera) :window(window) {
-	this->camera = camera;
-};
-
-void WaitingScreen::handleEvent() {
-	Event event;
-	while (window.pollEvent(event)) {
-		switch (event.type)
-		{
-		case Event::Closed:
-			window.close();
-			break;
-		case Event::Resized:
-			break;
-		}
-	}
-}
-
 void WaitingScreen::showWaitingScreen() {
 	window.clear();
 	clock.restart();
@@ -42,26 +24,10 @@ void WaitingScreen::showWaitingScreen() {
 		}
 		text.setString(L"Quiz rozpocznie siê za " + to_string(timeRemained) + " ...");
 		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
-		try { detectFingers(); }
+		try { fingersDetector->detectFingers(); }
 		catch (exception& e) {}
 		window.draw(text);
 		window.display();
 		handleEvent();
 	}
-}
-
-
-int WaitingScreen::detectFingers() {
-	FingersDetector fingersDetector;
-	Mat img, partImg;
-	camera.read(img);
-	cv::Rect rect = cv::Rect(cv::Point2f(10, 10), cv::Point2f(300 + 10, 300 + 10));
-	rectangle(img, cv::Point2f(10, 10), cv::Point2f(300 + 10, 300 + 10), cv::Scalar(255, 0, 0));
-	partImg = img(rect);
-	cv::imshow("window real", img);
-	int numOfFingers = fingersDetector.countFingers(partImg);
-	Mat contoursImage = fingersDetector.getContoursImage();
-	cv::putText(contoursImage, to_string(numOfFingers), cv::Point(50, 50), FONT_HERSHEY_SIMPLEX, 2, Scalar(0, 0, 255), 3);
-	cv::imshow("window", contoursImage);
-	return numOfFingers;
 }

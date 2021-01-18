@@ -1,28 +1,7 @@
 #include "StartupScreen.h"
 
-using namespace sf;
-
-StartupScreen::StartupScreen(RenderWindow& window, VideoCapture camera) :window(window) {
-	this->camera = camera;
-};
-
-void StartupScreen::handleEvent() {
-	Event event;
-	while (window.pollEvent(event))
-	{
-		switch (event.type)
-		{
-		case Event::Closed:
-			window.close();
-			break;
-		case Event::Resized:
-			break;
-		}
-	}
-}
 
 void StartupScreen::showStartingScreen() {
-
 	RectangleShape helloScreen(Vector2f(1200.0f, 650.0f));
 	Text text1, text2;
 	Texture texture, questionTexture;
@@ -45,7 +24,11 @@ void StartupScreen::showStartingScreen() {
 	questionTexture.loadFromFile("../imagesSfml/baner.jpg");
 	font.loadFromFile("../fonts/AllerDisplay.ttf");
 	configurateStartingScreen(text1, text2, helloScreen, questionTexture, font);
+	ifstream file;
+	file.open("../config.txt");
+	if (file.fail() != true) {
 
+	}
 	while (true) {
 		try {
 			window.clear();
@@ -57,8 +40,13 @@ void StartupScreen::showStartingScreen() {
 				window.draw(sprites.at(i));
 			window.display();
 			handleEvent();
-			if (detectFingers() == 5)
+			if (fingersDetector->detectFingers() == 5) {
+				if (file.fail() != true)
+					file.close();
 				break;
+			}
+			Point2f point = readFromFileCoordinates();
+			fingersDetector->setCoordinatesWindow(point.x, point.y);
 		}
 		catch (cv::Exception& e) {
 		}
@@ -105,33 +93,27 @@ Point2f StartupScreen::readFromFileCoordinates() {
 	ifstream file;
 	string coordX;
 	string coordY;
-
+	int resX, resY;
 	file.open("../config.txt");
 	if (file.fail() == true)
 		return NULL;
-
 	getline(file, coordX);
-	int resX = stoi(coordX);
 	getline(file, coordY);
-	int resY = stoi(coordY);
+
+	try {
+		resX = stoi(coordX);
+	}
+	catch (std::exception& e) {
+		resX = 0;
+	}
+	try {
+		resY = stoi(coordY);
+	}
+	catch (std::exception& e) {
+		resY = 0;
+	}
+
 	Point2f point = Point2f(resX, resY);
 	file.close();
 	return point;
-}
-
-int StartupScreen::detectFingers() {
-
-	FingersDetector fingersDetector;
-	Mat img, partImg;
-	camera.read(img);
-	Point2f point = readFromFileCoordinates();
-	cv::Rect rect = cv::Rect(cv::Point2f(point.x, point.y), cv::Point2f(300 + point.x, 300 + point.y));
-	rectangle(img, cv::Point2f(point.x, point.y), cv::Point2f(300 + point.x, 300 + point.y), cv::Scalar(255, 0, 0));
-	partImg = img(rect);
-	cv::imshow("window real", img);
-	int numOfFingers = fingersDetector.countFingers(partImg);
-	Mat contoursImage = fingersDetector.getContoursImage();
-	cv::putText(contoursImage, to_string(numOfFingers), cv::Point(50, 50), FONT_HERSHEY_SIMPLEX, 2, Scalar(0, 0, 255), 3);
-	cv::imshow("window", contoursImage);
-	return numOfFingers;
 }

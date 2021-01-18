@@ -8,29 +8,29 @@
 
 #include "QuestionList.h"
 #include "FingersDetector.h"
+#include "Screen.h"
 
 using namespace std;
 using namespace cv;
 using namespace sf;
 
 
-class GameScreen {
+class GameScreen :public Screen {
 public:
-	GameScreen(RenderWindow& window, VideoCapture camera);
+	GameScreen(RenderWindow& window, FingersDetector* fingersDetector) :Screen(window) {
+		this->fingersDetector = fingersDetector;
+	}
 	void setCategory(int category);
 	int showGameScreen();
 	int getScore();
 private:
-	VideoCapture camera;
-	RenderWindow& window;
+	FingersDetector* fingersDetector;
 	Text feedbackText, textAnswers, textQuestions, currentQuestion, currentScore, timerText;
 	Font font;
-	int score = 0, totalQuestions = 10, timer = 1, category = 0;
-	void handleEvent();
+	int score = 0, totalQuestions = 10, timer = 10, category = 0;
 	int readCategoryFile(QuestionList& questionList);
 	void configureGameScreen(vector<RectangleShape>& answerBoxes, vector<Text>& answersText);
 	void drawOnWindow(RectangleShape& screen, vector<RectangleShape>& answerBoxes,
 		vector<Text>& answersText, QuestionList& questionList, int qs);
 	int checkAnswer(int numOfFingers, int correctAnswer, int& qs, Text& feedbackText, Text& currentQuestion);
-	int detectFingers();
 };

@@ -10,7 +10,6 @@ wstring QuestionList::readQuestion(wifstream& file) {
 	getline(file, textQuestion);
 	size_t len = textQuestion.length();
 
-
 	if (textQuestion.at(len - 1) != '\?') {
 		wstring nextLine;
 		getline(file, nextLine);
@@ -38,8 +37,10 @@ int QuestionList::readFromFile(string pathToFile) {
 	file.open(pathToFile.c_str());
 	if (file.fail() == true)
 		return -1;
-	
+	srand(time(NULL));
+
 	while (!file.eof()) {
+
 		Question question;
 		wstring textQuestion = readQuestion(file);
 		question.setQuestion(textQuestion);
@@ -56,8 +57,6 @@ int QuestionList::readFromFile(string pathToFile) {
 	file.close();
 	return 0;
 }
-
-
 
 
 void QuestionList::mixQuestions() {

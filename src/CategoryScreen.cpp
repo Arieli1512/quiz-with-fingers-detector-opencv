@@ -1,8 +1,5 @@
 #include "CategoryScreen.h"
 
-CategoryScreen::CategoryScreen(RenderWindow& window, VideoCapture camera) :window(window) {
-	this->camera = camera;
-};
 
 void CategoryScreen::showCategoryScreen() {
 	RectangleShape categoryScreen(Vector2f(1200.0f, 650.0f));
@@ -22,10 +19,8 @@ void CategoryScreen::showCategoryScreen() {
 	window.clear();
 	vector<Texture> textures;
 	vector<Image> images;
-
 	vector<Sprite> sprites = configureSpritesIcons(textures, images, 90, 230, 240);
 	configureCategoryBoxes(categoryBox, textCategories);
-	
 	text.setPosition(window.getSize().x / 2.0f, 120.0f);
 	clock.restart();
 	int numOfFingers = 0;
@@ -46,7 +41,7 @@ void CategoryScreen::showCategoryScreen() {
 			window.draw(categoryBox[i]);
 			window.draw(textCategories[i]);
 		}
-		try { numOfFingers = detectFingers(); }
+		try { numOfFingers = fingersDetector->detectFingers(); }
 		catch (Exception& e) {}
 		window.draw(text);
 		window.display();
@@ -64,7 +59,6 @@ void CategoryScreen::configureCategoryBoxes(vector<RectangleShape>& categoryBox,
 	namesCategory.push_back(L"Film");
 	namesCategory.push_back(L"Geografia");
 	namesCategory.push_back(L"Ogólne");
-
 	for (int i = 0; i < categoryBox.size(); i++) {
 		textCategories[i].setFillColor(Color::White);
 		textCategories[i].setString(namesCategory.at(i));
@@ -76,7 +70,6 @@ void CategoryScreen::configureCategoryBoxes(vector<RectangleShape>& categoryBox,
 		window.draw(categoryBox[i]);
 		window.draw(textCategories[i]);
 	}
-
 	categoryBox[0].setFillColor(sf::Color::Magenta);
 	categoryBox[1].setFillColor(sf::Color::Red);
 	categoryBox[2].setFillColor(sf::Color::Blue);
@@ -109,37 +102,6 @@ vector<Sprite> CategoryScreen::configureSpritesIcons(vector<Texture>& textures, 
 	return sprites;
 }
 
-
-int CategoryScreen::detectFingers() {
-
-	FingersDetector fingersDetector;
-	Mat img, partImg;
-	camera.read(img);
-	cv::Rect rect = cv::Rect(cv::Point2f(10, 10), cv::Point2f(300 + 10, 300 + 10));
-	rectangle(img, cv::Point2f(10, 10), cv::Point2f(300 + 10, 300 + 10), cv::Scalar(255, 0, 0));
-	partImg = img(rect);
-	cv::imshow("window real", img);
-	int numOfFingers = fingersDetector.countFingers(partImg);
-	Mat contoursImage = fingersDetector.getContoursImage();
-	cv::putText(contoursImage, to_string(numOfFingers), cv::Point(50, 50), FONT_HERSHEY_SIMPLEX, 2, Scalar(0, 0, 255), 3);
-	cv::imshow("window", contoursImage);
-	return numOfFingers;
-}
-
-
-void CategoryScreen::handleEvent() {
-	Event event;
-	while (window.pollEvent(event)) {
-		switch (event.type)
-		{
-		case Event::Closed:
-			window.close();
-			break;
-		case Event::Resized:
-			break;
-		}
-	}
-}
 
 int CategoryScreen::getCategory() {
 	return this->category;

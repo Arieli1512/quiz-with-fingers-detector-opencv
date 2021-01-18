@@ -1,49 +1,15 @@
 #include "GameScreen.h"
 
-GameScreen::GameScreen(RenderWindow& window, VideoCapture camera) :window(window) {
-	this->camera = camera;
-};
-
 void GameScreen::setCategory(int category) {
 	this->category = category;
 }
-
-void GameScreen::handleEvent() {
-	Event event;
-	while (window.pollEvent(event)) {
-		switch (event.type) {
-		case Event::Closed:
-			window.close();
-			break;
-		case Event::Resized:
-			break;
-		}
-	}
-}
-
-int GameScreen::detectFingers() {
-	FingersDetector fingersDetector;
-	Mat img, partImg;
-	camera.read(img);
-	cv::Rect rect = cv::Rect(cv::Point2f(10, 10), cv::Point2f(300 + 10, 300 + 10));
-	rectangle(img, cv::Point2f(10, 10), cv::Point2f(300 + 10, 300 + 10), cv::Scalar(255, 0, 0));
-	partImg = img(rect);
-	cv::imshow("window real", img);
-	int numOfFingers = fingersDetector.countFingers(partImg);
-	Mat contoursImage = fingersDetector.getContoursImage();
-	cv::putText(contoursImage, to_string(numOfFingers), cv::Point(50, 50), FONT_HERSHEY_SIMPLEX, 2, Scalar(0, 0, 255), 3);
-	cv::imshow("window", contoursImage);
-	cout << numOfFingers << endl;
-	return numOfFingers;
-}
-
 
 
 int GameScreen::showGameScreen() {
 	Time elapsed;
 	Clock clock;
 	RectangleShape screen(Vector2f(1200.0f, 650.0f));
-	vector<RectangleShape> answerBoxes(5, RectangleShape(Vector2f(220, 220)));
+	vector<RectangleShape> answerBoxes(5, RectangleShape(Vector2f(240, 220)));
 	Texture backgroundTexture;
 	int question = 0, numOfFingers = 0, qs = 0;
 	QuestionList questionList;
@@ -52,14 +18,14 @@ int GameScreen::showGameScreen() {
 	backgroundTexture.loadFromFile("../imagesSfml/baner.jpg");
 	screen.setTexture(&backgroundTexture);
 	font.loadFromFile("../fonts/AllerDisplay.ttf");
-	textAnswers.setCharacterSize(25);
+	textAnswers.setCharacterSize(24);
 	textAnswers.setFont(font);
 	vector<Text> answersText(5, textAnswers);
 	configureGameScreen(answerBoxes, answersText);
 	clock.restart();
 	score = 0;
+	feedbackText.setString("");
 	while (true) {
-
 		window.clear();
 		elapsed = clock.getElapsedTime();
 		int timeRemained = timer - (int)elapsed.asSeconds();
@@ -81,7 +47,7 @@ int GameScreen::showGameScreen() {
 		mystr.append(" / ");
 		mystr.append(to_string(totalQuestions));
 		currentQuestion.setString(mystr);
-		try { numOfFingers = detectFingers(); }
+		try { numOfFingers = fingersDetector->detectFingers(); }
 		catch (Exception& e) {}
 		wstring questionString = questionList.getQuestionArray().at(qs).getQuestion();
 		textQuestions.setString(sf::String::fromUtf8(questionString.begin(), questionString.end()));
@@ -110,6 +76,7 @@ void GameScreen::drawOnWindow(RectangleShape& screen, vector<RectangleShape>& an
 	window.draw(feedbackText);
 	window.draw(timerText);
 }
+
 void GameScreen::configureGameScreen(vector<RectangleShape>& answerBoxes, vector<Text>& answersText) {
 
 	textQuestions.setCharacterSize(35);
@@ -128,7 +95,7 @@ void GameScreen::configureGameScreen(vector<RectangleShape>& answerBoxes, vector
 		answersText[i].setPosition(answerBoxes[i].getPosition());
 		answersText[i].setPosition(120.0f + 240.0f * i, 525.0f);
 	}
-	feedbackText.setPosition(window.getSize().x - 250, 10);
+	feedbackText.setPosition(window.getSize().x - 260, 10);
 	timerText.setPosition(window.getSize().x - 200, 50);
 	timerText.setFont(font);
 	timerText.setCharacterSize(35);
@@ -136,7 +103,6 @@ void GameScreen::configureGameScreen(vector<RectangleShape>& answerBoxes, vector
 	currentScore.setPosition(10, 60);
 	currentScore.setCharacterSize(30);
 	currentScore.setFont(font);
-	feedbackText.setPosition(window.getSize().x - 250, 10);
 	feedbackText.setFont(font);
 	feedbackText.setCharacterSize(25);
 	currentQuestion.setPosition(10, 10);
@@ -164,10 +130,9 @@ int GameScreen::readCategoryFile(QuestionList& questionList) {
 		x = questionList.readFromFile("../categories/pytania_projekt.txt");
 		break;
 	}
-	if (x == -1) {
-		cout << "Error-file not loaded";
+	if (x == -1)
 		return x;
-	}
+
 	questionList.mixQuestions();
 	return 0;
 }
@@ -178,12 +143,10 @@ int GameScreen::checkAnswer(int numOfFingers, int correctAnswer, int& qs, Text& 
 		score++;
 		feedbackText.setString(L"Poprawna odpowiedŸ");
 		feedbackText.setFillColor(Color::Green);
-		//cout << "Poprawna odp" << numOfFingers << "  corr answ :" << correctAnswer << endl;
 	}
 	else {
 		feedbackText.setString(L"B³êdna odpowiedŸ");
 		feedbackText.setFillColor(Color::Red);
-		//cout << "Zla odp" << numOfFingers << "  corr answ :" << correctAnswer << endl;
 	}
 	qs++;
 	string mystr = "Pytanie ";

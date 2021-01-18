@@ -6,22 +6,22 @@
 #include <SFML/System/Clock.hpp>
 
 #include "FingersDetector.h"
+#include "Screen.h"
 
 using namespace std;
 using namespace cv;
 using namespace sf;
 
 
-class WaitingScreen {
+class WaitingScreen : public Screen {
 public:
-	WaitingScreen(RenderWindow& window, VideoCapture camera);
+	WaitingScreen(RenderWindow& window, FingersDetector* fingersDetector) :Screen(window) {
+		this->fingersDetector = fingersDetector;
+	}
 	void showWaitingScreen();
 private:
-	VideoCapture camera;
-	RenderWindow& window;
+	FingersDetector* fingersDetector;
 	Time elapsed;
 	Clock clock;
-	int timer = 5;
-	int detectFingers();
-	void handleEvent();
+	int timer = 8;
 };

@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include<fstream>
+#include <fstream>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 
@@ -8,22 +8,22 @@
 #include <SFML/System/Clock.hpp>
 
 #include "FingersDetector.h"
+#include "Screen.h"
 
 using namespace std;
 using namespace sf;
 using namespace cv;
 
 
-class StartupScreen {
+class StartupScreen : public Screen {
 public:
-	StartupScreen(RenderWindow& window, VideoCapture camera);
+	StartupScreen(RenderWindow& window, FingersDetector* fingersDetector) :Screen(window) {
+		this->fingersDetector = fingersDetector;
+	}
 	void showStartingScreen();
 private:
-	RenderWindow& window;
-	VideoCapture camera;
+	FingersDetector* fingersDetector;
 	vector<Sprite> configureSpritesIcons(vector<string>& names, vector<Texture>& textures, vector<Image>& images, int x, int y, int shift);
 	Point2f readFromFileCoordinates();
-	int detectFingers();
 	void configurateStartingScreen(Text& text1, Text& text2, RectangleShape& helloScreen, Texture& questionTexture, Font& font);
-	void handleEvent();
 };

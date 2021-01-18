@@ -10,22 +10,21 @@
 #include "CategoryScreen.h"
 #include "GameScreen.h"
 #include "EndingScreen.h"
+#include "FingersDetector.h"
 
 using namespace std;
 using namespace sf;
 using namespace cv;
 
 int main() {
-
-	VideoCapture camera(0);
+	FingersDetector* fingersDetector = new FingersDetector();
 	RenderWindow window(VideoMode(1200.0f, 650.0f), "Quiz", Style::Close | Style::Resize);
-
-	StartupScreen startupScreen(window, camera);
-	WaitingScreen waitingScreen(window, camera);
-	CategoryScreen categoryScreen(window, camera);
-	GameScreen gameScreen(window, camera);
-	EndingScreen endingScreen(window, camera);
-	int score = 8, status = 0;
+	StartupScreen startupScreen(window, fingersDetector);
+	WaitingScreen waitingScreen(window, fingersDetector);
+	CategoryScreen categoryScreen(window, fingersDetector);
+	GameScreen gameScreen(window, fingersDetector);
+	EndingScreen endingScreen(window, fingersDetector);
+	int score = 0, status = 0;
 
 	while (true) {
 		startupScreen.showStartingScreen();
@@ -38,10 +37,11 @@ int main() {
 		endingScreen.setScore(score);
 		endingScreen.showEndingScreen();
 		status = endingScreen.getStatus();
-		if (status != 1)
+		if (status == 1) {
+			delete fingersDetector;
 			break;
+		}
 	}
-
 
 	return 0;
 }

@@ -9,7 +9,6 @@
 #include "Question.h"
 
 class QuestionList {
-
 private:
 	vector<Question> questionArray;
 	wstring readQuestion(wifstream& file);

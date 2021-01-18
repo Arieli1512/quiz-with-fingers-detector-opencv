@@ -6,7 +6,7 @@ void Question::setQuestion(wstring question) {
 }
 
 void Question::setCorrectAnswer(int correct) {
-	this->correctAnswer = correct+1;
+	this->correctAnswer = correct + 1;
 }
 void Question::setAnswers(vector < wstring > answers) {
 	this->answers = answers;
@@ -27,7 +27,7 @@ int Question::getCorrectAnswer() {
 void Question::compareAnswers(wstring correctAnswer) {
 
 	for (int i = 0; i < answers.size(); i++) {
-		if (correctAnswer == answers.at(i)) {
+		if (answers.at(i) == correctAnswer) {
 			setCorrectAnswer(i);
 			break;
 		}
@@ -44,7 +44,6 @@ void Question::setCorrectAnswerName(wstring correctAnswerName) {
 }
 
 void Question::mixAnswers() {
-	srand(unsigned(time(NULL)));
 	random_shuffle(answers.begin(), answers.end());
 }
 

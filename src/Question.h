@@ -9,14 +9,12 @@
 
 using namespace std;
 
-class Question
-{
+class Question {
 private:
 	wstring question;
 	vector<wstring> answers;
 	wstring correctAnswerName;
-	int correctAnswer=0;
-
+	int correctAnswer = 0;
 public:
 	void setQuestion(wstring question);
 	void setCorrectAnswer(int correct);
