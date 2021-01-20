@@ -1,6 +1,6 @@
 #include "WaitingScreen.h"
 
-void WaitingScreen::showWaitingScreen() {
+int WaitingScreen::showWaitingScreen() {
 	window.clear();
 	clock.restart();
 	Font font;
@@ -20,7 +20,7 @@ void WaitingScreen::showWaitingScreen() {
 		int timeRemained = timer - (int)elapsed.asSeconds();
 		if (timeRemained == 0) {
 			clock.restart();
-			return;
+			return 0;
 		}
 		text.setString(L"Quiz rozpocznie siê za " + to_string(timeRemained) + " ...");
 		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
@@ -28,6 +28,12 @@ void WaitingScreen::showWaitingScreen() {
 		catch (exception& e) {}
 		window.draw(text);
 		window.display();
-		handleEvent();
+		if (handleEvent() == -1) {
+			fingersDetector->closeCamera();
+			delete fingersDetector;
+			return -1;
+		}
 	}
+
+	return 0;
 }

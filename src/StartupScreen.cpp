@@ -1,7 +1,7 @@
 #include "StartupScreen.h"
 
 
-void StartupScreen::showStartingScreen() {
+int StartupScreen::showStartingScreen() {
 	RectangleShape helloScreen(Vector2f(1200.0f, 650.0f));
 	Text text1, text2;
 	Texture texture, questionTexture;
@@ -26,9 +26,6 @@ void StartupScreen::showStartingScreen() {
 	configurateStartingScreen(text1, text2, helloScreen, questionTexture, font);
 	ifstream file;
 	file.open("../config.txt");
-	if (file.fail() != true) {
-
-	}
 	while (true) {
 		try {
 			window.clear();
@@ -39,7 +36,11 @@ void StartupScreen::showStartingScreen() {
 			for (int i = 0; i < sprites.size(); i++)
 				window.draw(sprites.at(i));
 			window.display();
-			handleEvent();
+			if (handleEvent() == -1) {
+				fingersDetector->closeCamera();
+				delete fingersDetector;
+				return -1;
+			}
 			if (fingersDetector->detectFingers() == 5) {
 				if (file.fail() != true)
 					file.close();
@@ -51,6 +52,8 @@ void StartupScreen::showStartingScreen() {
 		catch (cv::Exception& e) {
 		}
 	}
+
+	return 0;
 }
 
 void StartupScreen::configurateStartingScreen(Text& text1, Text& text2, RectangleShape& helloScreen, Texture& questionTexture, Font& font) {

@@ -1,7 +1,7 @@
 #include "CategoryScreen.h"
 
 
-void CategoryScreen::showCategoryScreen() {
+int CategoryScreen::showCategoryScreen() {
 	RectangleShape categoryScreen(Vector2f(1200.0f, 650.0f));
 	vector<RectangleShape> categoryBox(5, RectangleShape(Vector2f(220, 220)));
 	Font font;
@@ -45,9 +45,13 @@ void CategoryScreen::showCategoryScreen() {
 		catch (Exception& e) {}
 		window.draw(text);
 		window.display();
-		handleEvent();
+		if (handleEvent() == -1) {
+			fingersDetector->closeCamera();
+			delete fingersDetector;
+			return -1;
+		}
 	}
-	return;
+	return 0;
 }
 
 

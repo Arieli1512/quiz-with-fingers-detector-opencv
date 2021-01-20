@@ -19,7 +19,7 @@ public:
 	CategoryScreen(RenderWindow& window, FingersDetector* fingersDetector) :Screen(window) {
 		this->fingersDetector = fingersDetector;
 	}
-	void showCategoryScreen();
+	int showCategoryScreen();
 	int getCategory();
 private:
 	FingersDetector* fingersDetector;

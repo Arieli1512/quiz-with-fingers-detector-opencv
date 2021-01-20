@@ -18,7 +18,7 @@ public:
 	WaitingScreen(RenderWindow& window, FingersDetector* fingersDetector) :Screen(window) {
 		this->fingersDetector = fingersDetector;
 	}
-	void showWaitingScreen();
+	int showWaitingScreen();
 private:
 	FingersDetector* fingersDetector;
 	Time elapsed;

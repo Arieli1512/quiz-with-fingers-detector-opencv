@@ -20,7 +20,7 @@ public:
 	StartupScreen(RenderWindow& window, FingersDetector* fingersDetector) :Screen(window) {
 		this->fingersDetector = fingersDetector;
 	}
-	void showStartingScreen();
+	int showStartingScreen();
 private:
 	FingersDetector* fingersDetector;
 	vector<Sprite> configureSpritesIcons(vector<string>& names, vector<Texture>& textures, vector<Image>& images, int x, int y, int shift);
