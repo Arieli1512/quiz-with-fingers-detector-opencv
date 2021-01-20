@@ -12,6 +12,7 @@ public:
 	int detectFingers();
 	void setFlagSwitchCamera(int flagSwitchCamera);
 	void setCoordinatesWindow(int x, int y);
+	void closeCamera();
 private:
 	int flagSwitchCamera = 0;
 	int coordX = 10, coordY = 10;

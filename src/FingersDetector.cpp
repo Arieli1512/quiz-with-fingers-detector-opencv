@@ -136,7 +136,7 @@ void FingersDetector::validateCoordinates() {
 int FingersDetector::detectFingers() {
 
 	if (flagSwitchCamera == 0) {
-		VideoCapture camera1(0);
+		VideoCapture camera1(0, CAP_DSHOW);
 		this->camera = camera1;
 		flagSwitchCamera = 1;
 	}
@@ -151,4 +151,9 @@ int FingersDetector::detectFingers() {
 	cv::putText(contoursImage, to_string(numOfFingers), cv::Point(50, 50), FONT_HERSHEY_SIMPLEX, 2, Scalar(0, 0, 255), 3);
 	cv::imshow("window", contoursImage);
 	return numOfFingers;
+}
+
+void FingersDetector::closeCamera() {
+	this->camera.release();
+	destroyAllWindows();
 }
