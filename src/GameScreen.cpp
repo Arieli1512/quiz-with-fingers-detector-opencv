@@ -54,7 +54,11 @@ int GameScreen::showGameScreen() {
 		textQuestions.setOrigin(textQuestions.getLocalBounds().width / 2.0f, textQuestions.getLocalBounds().height / 2.0f);
 		drawOnWindow(screen, answerBoxes, answersText, questionList, qs);
 		window.display();
-		handleEvent();
+		if (handleEvent() == -1) {
+			fingersDetector->closeCamera();
+			delete fingersDetector;
+			return -1;
+		}
 	}
 }
 

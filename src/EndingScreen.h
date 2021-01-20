@@ -20,7 +20,7 @@ public:
 	EndingScreen(RenderWindow& window, FingersDetector* fingersDetector) :Screen(window) {
 		this->fingersDetector = fingersDetector;
 	}
-	void showEndingScreen();
+	int showEndingScreen();
 	void setScore(int score);
 	int getStatus();
 private:

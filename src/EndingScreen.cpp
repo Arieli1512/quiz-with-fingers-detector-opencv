@@ -52,7 +52,7 @@ void EndingScreen::configureEndingScreen(wstring endPoints) {
 	summary.setPosition(window.getSize().x / 2.0f, (window.getSize().y / 2.0f) - 150);
 }
 
-void EndingScreen::showEndingScreen() {
+int EndingScreen::showEndingScreen() {
 	RectangleShape screen(Vector2f(1200.0f, 650.0f));
 	Texture backgroundTexture;
 	Clock clock;
@@ -77,12 +77,12 @@ void EndingScreen::showEndingScreen() {
 		int timeRemained = timer - (int)elapsed.asSeconds();
 		proposal.setString(to_string(timeRemained) + " ...");
 		if ((int)elapsed.asSeconds() > (timer - 1)) {
-			proposal.setString(L"Aby zagraæ jeszcze raz, poka¿ 3 palce!\nAby zakoñczyæ grê, poka¿ 4 palce!");
+			proposal.setString(L"Aby zagraæ jeszcze raz, poka¿ 3 palce!\nAby zakoñczyæ grê, poka¿ 1 palec!");
 			proposal.setOrigin(proposal.getLocalBounds().width / 2.0f, proposal.getLocalBounds().height / 2.0f);
 			if (numOfFingers == 3) {
 				break;
 			}
-			else if (numOfFingers == 4) {
+			else if (numOfFingers == 1) {
 				status = 1;
 				break;
 			}
@@ -94,7 +94,11 @@ void EndingScreen::showEndingScreen() {
 		window.draw(sprite);
 		window.draw(sprite2);
 		window.display();
-		handleEvent();
+		if (handleEvent() == -1) {
+			fingersDetector->closeCamera();
+			delete fingersDetector;
+			return -1;
+		}
 	}
 }
 
