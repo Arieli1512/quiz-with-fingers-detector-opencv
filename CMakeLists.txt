@@ -29,6 +29,8 @@ add_executable(Projekt_kompetencyjny
 	src/GameScreen.h
 	src/EndingScreen.cpp
 	src/EndingScreen.h
+	src/Screen.cpp
+	src/Screen.h
 )
 
 
