@@ -138,7 +138,7 @@ int GameScreen::readCategoryFile(QuestionList& questionList) {
 }
 
 
-int GameScreen::checkAnswer(int numOfFingers, int correctAnswer, int& qs, Text& feedbackText, Text& currentQuestion) {
+void GameScreen::checkAnswer(int numOfFingers, int correctAnswer, int& qs, Text& feedbackText, Text& currentQuestion) {
 	if (numOfFingers == correctAnswer) {
 		score++;
 		feedbackText.setString(L"Poprawna odpowiedü");

@@ -27,10 +27,10 @@ private:
 	FingersDetector* fingersDetector;
 	Text feedbackText, textAnswers, textQuestions, currentQuestion, currentScore, timerText;
 	Font font;
-	int score = 0, totalQuestions = 10, timer = 10, category = 0;
+	int score = 0, totalQuestions = 10, timer = 1, category = 0;
 	int readCategoryFile(QuestionList& questionList);
 	void configureGameScreen(vector<RectangleShape>& answerBoxes, vector<Text>& answersText);
 	void drawOnWindow(RectangleShape& screen, vector<RectangleShape>& answerBoxes,
 		vector<Text>& answersText, QuestionList& questionList, int qs);
-	int checkAnswer(int numOfFingers, int correctAnswer, int& qs, Text& feedbackText, Text& currentQuestion);
+	void checkAnswer(int numOfFingers, int correctAnswer, int& qs, Text& feedbackText, Text& currentQuestion);
 };
