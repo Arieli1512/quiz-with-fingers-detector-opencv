@@ -16,5 +16,5 @@ public:
 	Screen(RenderWindow& window) :window(window) {}
 protected:
 	RenderWindow& window;
-	void handleEvent();
+	int handleEvent();
 };

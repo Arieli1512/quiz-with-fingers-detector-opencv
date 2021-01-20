@@ -1,13 +1,15 @@
 #include "Screen.h"
 
 
-void Screen::handleEvent() {
+int Screen::handleEvent() {
 	Event event;
 	while (window.pollEvent(event)) {
 		switch (event.type) {
-		case Event::Closed:
+		case Event::Closed: {
 			window.close();
-			break;
+			return -1;
+		}
+
 		case Event::Resized:
 			break;
 		}
