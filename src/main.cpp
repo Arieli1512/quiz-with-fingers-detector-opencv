@@ -25,19 +25,25 @@ int main() {
 	GameScreen gameScreen(window, fingersDetector);
 	EndingScreen endingScreen(window, fingersDetector);
 	int score = 0, status = 0;
-
+	int retVal = 0;
 	while (true) {
-		startupScreen.showStartingScreen();
-		categoryScreen.showCategoryScreen();
+		if (startupScreen.showStartingScreen() == -1)
+			break;
+		if (categoryScreen.showCategoryScreen() == -1)
+			break;
 		int category = categoryScreen.getCategory();
-		waitingScreen.showWaitingScreen();
+		if (waitingScreen.showWaitingScreen() == -1)
+			break;
 		gameScreen.setCategory(category);
-		gameScreen.showGameScreen();
+		if (gameScreen.showGameScreen() == -1)
+			break;
 		score = gameScreen.getScore();
 		endingScreen.setScore(score);
-		endingScreen.showEndingScreen();
+		if (endingScreen.showEndingScreen() == -1)
+			break;
 		status = endingScreen.getStatus();
 		if (status == 1) {
+			fingersDetector->closeCamera();
 			delete fingersDetector;
 			break;
 		}
