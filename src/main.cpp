@@ -25,7 +25,6 @@ int main() {
 	GameScreen gameScreen(window, fingersDetector);
 	EndingScreen endingScreen(window, fingersDetector);
 	int score = 0, status = 0;
-	int retVal = 0;
 	while (true) {
 		if (startupScreen.showStartingScreen() == -1)
 			break;
